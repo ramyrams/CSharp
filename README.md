@@ -169,3 +169,39 @@ class TestDestructors
     Second's destructor is called.
     First's destructor is called.
 */
+
+
+
+## Object and Collection Initializers
+```cs
+class Cat
+{
+    // Auto-implemented properties.
+    public int Age { get; set; }
+    public string Name { get; set; }
+}
+
+Cat cat = new Cat { Age = 10, Name = "Fluffy" };
+```
+
+### Object Initializers with anonymous types
+```cs
+var pet = new { Age = 10, Name = "Fluffy" };
+
+var productInfos =
+    from p in products
+    select new { p.ProductName, p.UnitPrice };
+```	
+
+### Object initializers with nullable types	
+```cs
+List<int> digits = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+List<int> digits2 = new List<int> { 0 + 1, 12 % 3, MakeInt() };
+
+List<Cat> moreCats = new List<Cat>
+{
+    new Cat(){ Name = "Furrytail", Age=5 },
+    new Cat(){ Name = "Peaches", Age=4 },
+    null
+};
+```
