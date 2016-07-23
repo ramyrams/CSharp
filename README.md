@@ -210,3 +210,73 @@ List<Cat> moreCats = new List<Cat>
     null
 };
 ```
+
+
+### Access a Collection Class with foreach
+```cs
+Tokens f = new Tokens("This is a sample sentence.", new char[] {' ','-'});
+
+// Display the tokens.
+foreach (string item in f)
+{
+    System.Console.WriteLine(item);
+}
+```
+
+## Nested Types
+```cs
+class Container
+{
+    class Nested
+    {
+        Nested() { }
+    }
+}
+```
+
+## Partial Classes and Methods
+```cs
+public partial class Employee
+{
+    public void DoWork()
+    {
+    }
+}
+
+public partial class Employee
+{
+    public void GoToLunch()
+    {
+    }
+}
+```
+
+### At compile time, attributes of partial-type definitions are merged.
+```cs
+[SerializableAttribute]
+partial class Moon { }
+
+[ObsoleteAttribute]
+partial class Moon { }
+```
+
+//For example, consider the following declarations:
+```cs
+partial class Earth : Planet, IRotate { }
+partial class Earth : IRevolve { }
+
+//They are equivalent to the following declarations:
+class Earth : Planet, IRotate, IRevolve { }
+
+### Partial Methods
+
+```cs
+// Definition in file1.cs
+partial void onNameChanged();
+
+// Implementation in file2.cs
+partial void onNameChanged()
+{
+  // method body
+}
+```
