@@ -29,6 +29,26 @@ myDate = myNullableDate.Value;
 
 ```
 
+## Class
+### Declaring Classes & Creating Objects
+```cs
+public class Customer
+{
+    //Fields, properties, methods and events go here...
+}
+
+Customer object3 = new Customer();
+Customer object4 = object3;
+
+```
+
+### Class Inheritance
+public class Manager : Employee
+{
+    // Employee fields, properties, methods and events are inherited
+    // New Manager fields, properties, methods and events go here...
+}
+
 
 ## Constructors 
 
