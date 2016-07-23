@@ -42,12 +42,234 @@ Customer object4 = object3;
 
 ```
 
+
 ### Class Inheritance
 public class Manager : Employee
 {
     // Employee fields, properties, methods and events are inherited
     // New Manager fields, properties, methods and events go here...
 }
+
+```cs
+public class Employee
+{
+
+	//Constants
+	//---------
+	public const int months = 12, weeks = 52, days = 365;
+	const double daysPerWeek = (double)days / (double)weeks;
+
+
+	//Fields
+	//---------
+	// private field
+	private DateTime date;
+
+	// public field (Generally not recommended.)
+	public string day;
+
+	// public static field 
+	public static int NumberOfEmployees;
+
+
+	//Property
+	//---------
+	private static int counter;
+	private string name;
+
+
+	// Auto-Impl Properties for trivial get and set
+	public double TotalPurchases { get; set; }
+
+	public abstract double Area
+	{
+		get;
+		set;
+	}
+
+	// A read-write instance property:
+	public string Name
+	{
+		get { return name; }
+		set { name = value; }
+	}
+
+	// A read-only static property:
+	public static int Counter
+	{
+		get { return counter; }
+	}
+
+	// A read-write instance property, with calculation
+	private double seconds;
+	public double Hours
+	{
+		get { return seconds / 3600; }
+		set { seconds = value * 3600; }
+	}
+
+
+	// Public property exposes date field safely.
+	public DateTime Date
+	{
+		get
+		{
+			return date;
+		}
+		set
+		{
+			// Set some reasonable boundaries for likely birth dates.
+			if (value.Year > 1900 && value.Year <= DateTime.Today.Year)
+			{
+				date = value;
+			}
+			else
+				throw new ArgumentOutOfRangeException();
+		}
+
+	}
+
+	// Public method also exposes date field safely.
+	// Example call: birthday.SetDate("1975, 6, 30");
+	public void SetDate(string dateString)
+	{
+		DateTime dt = Convert.ToDateTime(dateString);
+
+		// Set some reasonable boundaries for likely birth dates.
+		if (dt.Year > 1900 && dt.Year <= DateTime.Today.Year)
+		{
+			date = dt;
+		}
+		else
+			throw new ArgumentOutOfRangeException();
+	}
+
+	//Read only
+	public TimeSpan GetTimeSpan(string dateString)
+	{
+		DateTime dt = Convert.ToDateTime(dateString);
+
+		if (dt != null && dt.Ticks < date.Ticks)
+		{
+			return date - dt;
+		}
+		else
+			throw new ArgumentOutOfRangeException();
+
+	}
+
+	public virtual int TestProperty
+	{
+		// Notice the accessor accessibility level.
+		protected set { }
+
+		// No access modifier is used here.
+		get { return 0; }
+	}
+	
+	
+	
+	
+	// A Constructor:
+	public Employee()
+	{
+		// Calculate the employee's number:
+		counter = ++counter + NumberOfEmployees;
+	}
+
+
+	// protected method:
+	protected void Pedal() { }
+
+	// private field:
+	private int wheels = 3;
+
+	// protected internal property:
+	protected internal int Wheels
+	{
+		get { return wheels; }
+	}
+
+
+	public override double GetTopSpeed()
+	{
+		return 108.4;
+	}
+
+}
+
+public class Manager : Employee
+{
+	private string name;
+
+	// Notice the use of the new modifier:
+	public new string Name
+	{
+		get { return name; }
+		set { name = value + ", Manager"; }
+	}
+
+	public double side;
+
+	public override double Area
+	{
+		get
+		{
+			return side * side;
+		}
+		set
+		{
+			side = System.Math.Sqrt(value);
+		}
+	}
+
+	public override int TestProperty
+	{
+		// Use the same accessibility level as in the overridden accessor.
+		protected set { }
+
+		// Cannot use access modifier here.
+		get { return 0; }
+	}
+}
+
+
+abstract class Motorcycle
+{
+	// Anyone can call this.
+	public void StartEngine() {/* Method statements here */ }
+
+	// Only derived classes can call this.
+	protected void AddGas(int gallons) { /* Method statements here */ }
+
+	// Derived classes can override the base class implementation.
+	public virtual int Drive(int miles, int speed) { /* Method statements here */ return 1; }
+
+	// Derived classes must implement this.
+	public abstract double GetTopSpeed();
+}
+
+
+class TestEmployee
+{
+	static void Main()
+	{
+		
+		Employee.NumberOfEmployees = 107;
+		Employee e1 = new Employee();
+		e1.Name = "Claude Vige";
+
+		System.Console.WriteLine("Employee number: {0}", Employee.Counter);
+		System.Console.WriteLine("Employee name: {0}", e1.Name);
+
+		Manager m1 = new Manager();
+		// Derived class property.
+		m1.Name = "John";
+		// Base class property.
+		((Employee)m1).Name = "Mary";
+	}
+}
+```
 
 
 ## Constructors 
