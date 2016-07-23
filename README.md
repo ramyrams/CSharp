@@ -105,3 +105,67 @@ public Employee(int weeklySalary, int numberOfWeeks)
 {
 }
 ```
+
+
+## Destructors 
+
+### a declaration of a destructor for the class Car:
+class Car
+{
+    ~Car()  // destructor
+    {
+        // cleanup statements...
+    }
+}
+
+### The destructor implicitly calls Finalize on the base class of the object. 
+protected override void Finalize()
+{
+    try
+    {
+        // Cleanup statements...
+    }
+    finally
+    {
+        base.Finalize();
+    }
+}
+
+### creates three classes that make a chain of inheritance
+class First
+{
+    ~First()
+    {
+        System.Diagnostics.Trace.WriteLine("First's destructor is called.");
+    }
+}
+
+class Second : First
+{
+    ~Second()
+    {
+        System.Diagnostics.Trace.WriteLine("Second's destructor is called.");
+    }
+}
+
+class Third : Second
+{
+    ~Third()
+    {
+        System.Diagnostics.Trace.WriteLine("Third's destructor is called.");
+    }
+}
+
+class TestDestructors
+{
+    static void Main()
+    {
+        Third t = new Third();
+    }
+
+}
+/* Output (to VS Output Window):
+    Third's destructor is called.
+    Second's destructor is called.
+    First's destructor is called.
+*/
