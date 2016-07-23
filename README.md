@@ -110,15 +110,17 @@ public Employee(int weeklySalary, int numberOfWeeks)
 ## Destructors 
 
 ### a declaration of a destructor for the class Car:
-class Car
+```csclass Car
 {
     ~Car()  // destructor
     {
         // cleanup statements...
     }
 }
+```
 
 ### The destructor implicitly calls Finalize on the base class of the object. 
+```cs
 protected override void Finalize()
 {
     try
@@ -130,8 +132,10 @@ protected override void Finalize()
         base.Finalize();
     }
 }
+```
 
 ### creates three classes that make a chain of inheritance
+```cs
 class First
 {
     ~First()
@@ -169,6 +173,7 @@ class TestDestructors
     Second's destructor is called.
     First's destructor is called.
 */
+```
 
 
 
