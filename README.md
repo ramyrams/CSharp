@@ -280,3 +280,28 @@ partial void onNameChanged()
   // method body
 }
 ```
+
+## Anonymous Types
+
+```cs
+var v = new { Amount = 108, Message = "Hello" };
+
+// Rest the mouse pointer over v.Amount and v.Message in the following
+// statement to verify that their inferred types are int and string.
+Console.WriteLine(v.Amount + v.Message);
+```
+
+```cs
+var productQuery = 
+    from prod in products
+    select new { prod.Color, prod.Price };
+
+foreach (var v in productQuery)
+{
+    Console.WriteLine("Color={0}, Price={1}", v.Color, v.Price);
+}
+```
+
+```cs
+var anonArray = new[] { new { name = "apple", diam = 4 }, new { name = "grape", diam = 1 }};
+```
