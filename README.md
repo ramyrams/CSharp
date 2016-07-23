@@ -325,3 +325,184 @@ foreach (var v in productQuery)
 ```cs
 var anonArray = new[] { new { name = "apple", diam = 4 }, new { name = "grape", diam = 1 }};
 ```
+
+
+
+## Polymorphism
+```cs
+public class Shape
+{
+    // A few example members
+    public int X { get; private set; }
+    public int Y { get; private set; }
+    public int Height { get; set; }
+    public int Width { get; set; }
+
+    // Virtual method
+    public virtual void Draw()
+    {
+        Console.WriteLine("Performing base class drawing tasks");
+    }
+}
+
+class Circle : Shape
+{
+    public override void Draw()
+    {
+        // Code to draw a circle...
+        Console.WriteLine("Drawing a circle");
+        base.Draw();
+    }
+}
+class Rectangle : Shape
+{
+    public override void Draw()
+    {
+        // Code to draw a rectangle...
+        Console.WriteLine("Drawing a rectangle");
+        base.Draw();
+    }
+}
+class Triangle : Shape
+{
+    public override void Draw()
+    {
+        // Code to draw a triangle...
+        Console.WriteLine("Drawing a triangle");
+        base.Draw();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Polymorphism at work #1: a Rectangle, Triangle and Circle
+        // can all be used whereever a Shape is expected. No cast is
+        // required because an implicit conversion exists from a derived 
+        // class to its base class.
+        System.Collections.Generic.List<Shape> shapes = new System.Collections.Generic.List<Shape>();
+        shapes.Add(new Rectangle());
+        shapes.Add(new Triangle());
+        shapes.Add(new Circle());
+
+        // Polymorphism at work #2: the virtual method Draw is
+        // invoked on each of the derived classes, not the base class.
+        foreach (Shape s in shapes)
+        {
+            s.Draw();
+        }
+
+        // Keep the console open in debug mode.
+        Console.WriteLine("Press any key to exit.");
+        Console.ReadKey();
+    }
+
+}
+
+/* Output:
+    Drawing a rectangle
+    Performing base class drawing tasks
+    Drawing a triangle
+    Performing base class drawing tasks
+    Drawing a circle
+    Performing base class drawing tasks
+ */
+ ```
+ 
+### Virtual Members
+```cs
+public class BaseClass
+{
+    public virtual void DoWork() { }
+    public virtual int WorkProperty
+    {
+        get { return 0; }
+    }
+}
+public class DerivedClass : BaseClass
+{
+    public override void DoWork() { }
+    public override int WorkProperty
+    {
+        get { return 0; }
+    }
+}
+
+DerivedClass B = new DerivedClass();
+B.DoWork();  // Calls the new method.
+
+BaseClass A = (BaseClass)B;
+A.DoWork();  // Also calls the new method.
+
+```
+
+### Hiding Base Class Members with New Members
+```cs
+public class BaseClass
+{
+    public void DoWork() { WorkField++; }
+    public int WorkField;
+    public int WorkProperty
+    {
+        get { return 0; }
+    }
+}
+
+public class DerivedClass : BaseClass
+{
+    public new void DoWork() { WorkField++; }
+    public new int WorkField;
+    public new int WorkProperty
+    {
+        get { return 0; }
+    }
+}
+
+
+DerivedClass B = new DerivedClass();
+B.DoWork();  // Calls the new method.
+
+BaseClass A = (BaseClass)B;
+A.DoWork();  // Calls the old method.
+
+```
+
+### Preventing Derived Classes from Overriding Virtual Members
+```cs
+public class A
+{
+    public virtual void DoWork() { }
+}
+public class B : A
+{
+    public override void DoWork() { }
+}
+
+public class C : B
+{
+    public sealed override void DoWork() { }
+}
+
+public class D : C
+{
+    public new void DoWork() { }
+}
+```
+### Accessing Base Class Virtual Members from Derived Classes
+```cs
+public class Base
+{
+    public virtual void DoWork() {/*...*/ }
+}
+public class Derived : Base
+{
+    public override void DoWork()
+    {
+        //Perform Derived's work here
+        //...
+        // Call DoWork on base class
+        base.DoWork();
+    }
+}
+```
