@@ -595,3 +595,117 @@ class Minivan : Car
     }
 }
 ```
+
+
+## Abstract and Sealed Classes and Class Members
+
+### Abstract Classes and Class Members
+```cs
+
+public abstract class A
+{
+    public abstract void DoWork(int i);
+}
+
+```
+
+
+
+```cs
+public class D
+{
+    public virtual void DoWork(int i)
+    {
+        // Original implementation.
+    }
+}
+
+public abstract class E : D
+{
+    public abstract override void DoWork(int i);
+}
+
+public class F : E
+{
+    public override void DoWork(int i)
+    {
+        // New implementation.
+    }
+}
+```
+
+
+### Sealed Classes and Class Members
+```cs
+public sealed class D
+{
+    // Class members here.
+}
+
+public class D : C
+{
+    public sealed override void DoWork() { }
+}
+
+```
+
+## Static Classes and Static Class Members
+```cs
+UtilityClass.MethodA();
+
+```
+
+
+### Static Members
+
+```cs
+
+public static class TemperatureConverter
+{
+    public static double CelsiusToFahrenheit(string temperatureCelsius)
+    {
+        return (temperatureCelsius * 9 / 5) + 32;;
+    }
+
+    public static double FahrenheitToCelsius(string temperatureFahrenheit)
+    {
+        return (fahrenheit - 32) * 5 / 9;;
+    }
+}
+
+class TestTemperatureConverter
+{
+    static void Main()
+    {
+		double F, C = 0;
+		F = TemperatureConverter.CelsiusToFahrenheit(Console.ReadLine());
+        Console.WriteLine("Temperature in Fahrenheit: {0:F2}", F);
+		
+        C = TemperatureConverter.FahrenheitToCelsius(Console.ReadLine());
+        Console.WriteLine("Temperature in Celsius: {0:F2}", C);
+    }
+}
+
+```
+
+```cs
+public class Automobile
+{
+    public static int NumberOfWheels = 4;
+    public static int SizeOfGasTank
+    {
+        get
+        {
+            return 15;
+        }
+    }
+    public static void Drive() { }
+    public static event EventType RunOutOfGas;
+
+    // Other non-static fields and properties...
+}
+
+Automobile.Drive();
+int i = Automobile.NumberOfWheels;
+
+```
