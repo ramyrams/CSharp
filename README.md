@@ -506,3 +506,92 @@ public class Derived : Base
     }
 }
 ```
+
+
+### Versioning with the Override and New Keywords
+```cs
+
+class GraphicsClass
+{
+    public virtual void DrawLine() { }
+    public virtual void DrawPoint() { }
+    public virtual void DrawRectangle() { }
+}
+
+
+class YourDerivedGraphicsClass : GraphicsClass
+{
+    public override void DrawRectangle() { }
+}
+
+
+base.DrawRectangle();
+
+
+class YourDerivedGraphicsClass : GraphicsClass
+{
+    public new void DrawRectangle() { }
+}
+
+
+```
+
+### Override and Method Selection
+```cs
+public class Derived : Base
+{
+    public override void DoWork(int param) { }
+    public void DoWork(double param) { }
+}
+
+int val = 5;
+Derived d = new Derived();
+d.DoWork(val);  // Calls DoWork(double).
+
+((Base)d).DoWork(val);  // Calls DoWork(int) on Derived.
+
+```
+
+
+
+```cs
+// Define the base class, Car. The class defines two methods,
+// DescribeCar and ShowDetails. DescribeCar calls ShowDetails, and each derived
+// class also defines a ShowDetails method. The example tests which version of
+// ShowDetails is selected, the base class method or the derived class method.
+class Car
+{
+    public void DescribeCar()
+    {
+        System.Console.WriteLine("Four wheels and an engine.");
+        ShowDetails();
+    }
+
+    public virtual void ShowDetails()
+    {
+        System.Console.WriteLine("Standard transportation.");
+    }
+}
+
+// Define the derived classes.
+
+// Class ConvertibleCar uses the new modifier to acknowledge that ShowDetails
+// hides the base class method.
+class ConvertibleCar : Car
+{
+    public new void ShowDetails()
+    {
+        System.Console.WriteLine("A roof that opens up.");
+    }
+}
+
+// Class Minivan uses the override modifier to specify that ShowDetails
+// extends the base class method.
+class Minivan : Car
+{
+    public override void ShowDetails()
+    {
+        System.Console.WriteLine("Carries seven people.");
+    }
+}
+```
