@@ -36,6 +36,41 @@
 * [Streams and I/O](#streams-and-I/O)
 * [Diagnostics and Code Contracts](#diagnostics-and-code-Contracts)
 
+## Types, Storage, and Variables
+## Classes
+## Inheritance
+## Interfaces
+## Methods
+## Expressions and Operators
+## Statements
+## Structs
+## Enumerations
+## Arrays
+## Delegates
+## Events
+## Conversions
+## Generics
+## Enumerators and Iterators
+## Exceptions
+## Preprocessor Directives
+## Reflection and Attributes
+## Dynamic Binding
+## Disposal and Garbage Collection
+## Serialization
+## Application Domains
+## Collections
+## Lambda
+## Asynchronous Programming
+## Concurrency & Asynchrony
+## Native and COM Interoperability
+## Parallel Programming
+## Advanced Threading
+## Security
+## Reflection and Metadata
+## Networking
+## Streams and I/O
+## Diagnostics and Code Contracts
+
 ```cs
 //Multiple-Variable Declarations
 // Variable declarations--some with initializers, some without
