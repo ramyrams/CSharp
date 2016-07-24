@@ -1,6 +1,6 @@
 # CShare
 
-TOC 
+#TOC 
 * [Types, Storage, and Variables](#Types, Storage, and Variables)
 * [Classes](#classes)
 * [Inheritance](#inheritance)
