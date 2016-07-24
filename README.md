@@ -931,3 +931,104 @@ Automobile.Drive();
 int i = Automobile.NumberOfWheels;
 
 ```
+
+## Enumeration Types
+
+```cs
+enum Days { Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday };
+enum Months : byte { Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec }; 
+enum Days {Sat=1, Sun, Mon, Tue, Wed, Thu, Fri};
+enum Days : byte {Sat=1, Sun, Mon, Tue, Wed, Thu, Fri};
+enum Range : long { Max = 2147483648L, Min = 255L };
+
+Days today = Days.Monday;
+int dayNumber =(int)today;
+Console.WriteLine("{0} is day number #{1}.", today, dayNumber);
+
+Months thisMonth = Months.Dec;
+byte monthNumber = (byte)thisMonth;
+Console.WriteLine("{0} is month number #{1}.", thisMonth, monthNumber);
+
+// Output:
+// Monday is day number #1.
+// Dec is month number #11.
+
+
+public class EnumTest
+{
+    enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat };
+
+    static void Main()
+    {
+        int x = (int)Days.Sun;
+        int y = (int)Days.Fri;
+        Console.WriteLine("Sun = {0}", x);
+        Console.WriteLine("Fri = {0}", y);
+    }
+}
+```
+
+
+```cs
+enum MachineState
+{
+    PowerOff = 0,
+    Running = 5,
+    Sleeping = 10,
+    Hibernating = Sleeping + 5
+}
+```
+
+### Enumeration Types as Bit Flags
+
+```cs
+[Flags]
+enum Days2
+{
+    None = 0x0,
+    Sunday = 0x1,
+    Monday = 0x2,
+    Tuesday = 0x4,
+    Wednesday = 0x8,
+    Thursday = 0x10,
+    Friday = 0x20,
+    Saturday = 0x40
+}
+class MyClass
+{
+    Days2 meetingDays = Days2.Tuesday | Days2.Thursday;
+}
+
+
+// Initialize with two flags using bitwise OR.
+meetingDays = Days2.Tuesday | Days2.Thursday;
+
+// Set an additional flag using bitwise OR.
+meetingDays = meetingDays | Days2.Friday;
+
+Console.WriteLine("Meeting days are {0}", meetingDays);
+// Output: Meeting days are Tuesday, Thursday, Friday
+
+// Remove a flag using bitwise XOR.
+meetingDays = meetingDays ^ Days2.Tuesday;
+Console.WriteLine("Meeting days are {0}", meetingDays);
+// Output: Meeting days are Thursday, Friday
+
+// Test value of flags using bitwise AND.
+bool test = (meetingDays & Days2.Thursday) == Days2.Thursday;
+Console.WriteLine("Thursday {0} a meeting day.", test == true ? "is" : "is not");
+```
+
+### Using the System.Enum Methods to Discover and Manipulate Enum Values
+```cs
+string s = Enum.GetName(typeof(Days), 4);
+Console.WriteLine(s);
+
+Console.WriteLine("The values of the Days Enum are:");
+foreach (int i in Enum.GetValues(typeof(Days)))
+    Console.WriteLine(i);
+
+Console.WriteLine("The names of the Days Enum are:");
+foreach (string str in Enum.GetNames(typeof(Days)))
+    Console.WriteLine(str);
+```	
