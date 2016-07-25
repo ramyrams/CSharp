@@ -219,13 +219,145 @@ public class Panda
 ```
 
 ## Properties
+## Properties
+```cs
+public class Properties
+{
+	public string Name{}
+}
+//Output
+//Error 'Properties.Properties.Name': property or indexer must have at least one accessor
+```
+
+## Get accessor
+```cs
+public string Name
+{
+	get
+	{
+		 return "I am a Name property";
+	}
+}
+```
+
+```cs
+public int Age
+{
+	get
+	{
+		DateTime dateOfBirth=new DateTime(1984,01,20);
+		DateTime currentDate = DateTime.Now;
+		int age = currentDate.Year - dateOfBirth.Year;
+		return age;
+	}
+}
+```
+
+## Set accessor		
+```cs
+public int Age
+{
+	set
+	{
+		Console.WriteLine("Set Age called " + value);
+	}
+}	
+```
+
+### Auto
+```cs
+public string Name { get; set; }
+public int Age { get;  }
+public int Age {  set; }
+```
+
+### Readonly
+```cs
+public int Age { get { return age; } }
+```
+
+### Write-Only
+```cs
+public int Age { set { age = value; } }
+```
+
+### Static Properties
+```cs
+public static int Age
+{
+	set
+	{
+		Console.WriteLine("In set static property; value is " + value);
+	}
+	get
+	{
+		Console.WriteLine("In get static property");
+		return 10;
+	}
+}
+```
+
+### Abstract Propertiesnamespace Properties
+```cs
+
+    public abstract class BaseClass
+    {
+        public abstract int AbsProperty { get; set; }
+    }
+
+    public class Properties : BaseClass
+    {
+        public override int AbsProperty
+        {
+            get
+            {
+                return 10;
+            }
+            set { Console.WriteLine("set called,value is " + value); }
+        }
+    }
+
+```
+
+### Properties in Inheritance
+```cs
+namespace Properties
+{
+  public class PropertiesBaseClass 
+    {
+        public int Age
+        {
+            set {}
+        }
+    }
+
+    public class PropertiesDerivedClass:PropertiesBaseClass
+    {
+        public int Age
+        {
+            get { return 32; }
+        }
+    }
+}
+
+namespace Properties
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            PropertiesBaseClass pBaseClass=new PropertiesBaseClass();
+            pBaseClass.Age = 10;
+            PropertiesDerivedClass pDerivedClass=new PropertiesDerivedClass();
+            ((PropertiesBaseClass) pDerivedClass).Age = 15;
+            pDerivedClass.Age = 10;
+        }
+    }
+}
+```
 
 
-### Read-only and calculated properties
 
-### Automatic properties
-
-### get and set accessibility
 
 ### CLR property implementation
 ```cs
