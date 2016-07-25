@@ -922,6 +922,657 @@ public class RichTextBox : TextBox
 	protected override void Undo() { Console.WriteLine("RichTextBox.Undo"); }
 }
 ```
+
+
+## Access Modifiers 
+```cs
+namespace AccessModifiers
+{
+    class Modifiers
+    {
+		//Method AAA is not marked with any access modifier which automatically makes it private, that is the default.
+		//Method BBB can access AAA but other class can't
+        static void AAA()
+        {
+            Console.WriteLine("Modifiers AAA");
+        }
+
+        public static void BBB()
+        {
+            Console.WriteLine("Modifiers BBB");
+            AAA();
+        }
+    }
+
+     class Program
+    {
+        static void Main(string[] args)
+        {
+            Modifiers.BBB();
+        }
+    }
+}
+//Output
+//Modifiers BBB
+//Modifiers AAA
+
+```   
+
+```cs
+class Program
+{
+	static void Main(string[] args)
+	{
+		Modifiers.AAA();
+		Console.ReadKey();
+	}
+}
+//Output
+//'AccessModifiers.Modifiers.AAA()' is inaccessible due to its protection level
+
+```
+
+
+```cs
+class Modifiers
+{
+	protected static void AAA()
+	{
+		Console.WriteLine("Modifiers AAA");
+	}
+
+	public static void BBB()
+	{
+		Console.WriteLine("Modifiers BBB");
+		AAA();
+	}
+}
+	
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Modifiers.AAA();
+        Console.ReadKey();
+    }
+}
+//Output
+'AccessModifiers.Modifiers.AAA()' is inaccessible due to its protection level	
+```
+
+### Modifiers in Inheritance
+```cs
+//Modifiers Base Class
+class ModifiersBase
+{
+	static void AAA()
+	{
+		Console.WriteLine("ModifiersBase AAA");
+	}
+	public static void BBB()
+	{
+		Console.WriteLine("ModifiersBase BBB");
+	}
+	protected static void CCC()
+	{
+		Console.WriteLine("ModifiersBase CCC");
+	}
+}
+	
+//Modifiers Derive Class
+
+class ModifiersDerived:ModifiersBase
+{
+    public static void XXX()
+    {
+        AAA();
+        BBB();
+        CCC();
+    }
+}
+
+//Program Class
+class Program
+{
+    static void Main(string[] args)
+    {
+        ModifiersDerived.XXX();
+        Console.ReadKey();
+    }
+}
+```
+
+
+### Namespaces with Modifiers
+```cs
+public namespace AccessModifiers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+        }
+    }
+}
+
+//Output
+Compile time error: A namespace declaration cannot have modifiers or attributes
+```
+
+
+### Private Class
+```cs
+namespace ConsoleApplication2
+{
+    private class ModifiersBase
+    {
+        public static void BBB()
+        {
+            Console.WriteLine("ModifiersBase BBB");
+        }
+    }
+}	
+
+Output
+Compile time error: Elements defined in a namespace cannot be explicitly declared as private, protected, or protected internal
+```
+
+
+### Internal Class and Public Method
+```cs
+namespace AccessModifiersLibrary
+{
+    internal class ClassA
+    {
+        public void MethodClassA(){}
+    }
+}
+
+
+using AccessModifiersLibrary;
+
+namespace AccessModifiers
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            ClassA classA = new ClassA();
+            classA.MethodClassA();
+        }
+    }
+}
+
+//Output
+'AccessModifiersLibrary.ClassA' is inaccessible due to its protection level
+The type 'AccessModifiersLibrary.ClassA' has no constructors defined
+'AccessModifiersLibrary.ClassA' is inaccessible due to its protection level
+'AccessModifiersLibrary.ClassA' does not contain a definition for 'MethodClassA' and
+no extension method 'MethodClassA' accepting a first argument of type 'AccessModifiersLibrary.ClassA'
+could be found (are you missing a using directive or an assembly reference?)
+```
+
+
+### Public Class and Private Method
+```cs
+AccessModifiersLibrary.ClassA:
+
+namespace AccessModifiersLibrary
+{
+    public class ClassA
+    {
+        private void MethodClassA(){}
+    }
+}
+
+
+using AccessModifiersLibrary;
+
+ namespace AccessModifiers
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            ClassA classA = new ClassA();
+            classA.MethodClassA();
+        }
+    }
+}
+
+
+//Output on compilation
+'AccessModifiersLibrary.ClassA' does not contain a definition
+for 'MethodClassA' and no extension method 'MethodClassA' accepting a first argument
+of type 'AccessModifiersLibrary.ClassA' could be found (are you missing a using directive or an assembly reference?)
+```
+
+
+### Public Class and Internal Method
+```cs
+AccessModifiersLibrary.ClassA:
+
+namespace AccessModifiersLibrary
+{
+    public class ClassA
+    {
+        Internal void MethodClassA(){}
+    }
+}
+
+
+using AccessModifiersLibrary;
+
+ namespace AccessModifiers
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            ClassA classA = new ClassA();
+            classA.MethodClassA();
+        }
+    }
+}
+
+//Output on compilation
+'AccessModifiersLibrary.ClassA' does not contain a definition for 'MethodClassA' and no extension
+method 'MethodClassA' accepting a first argument of type 'AccessModifiersLibrary.ClassA' could be
+found (are you missing a using directive or an assembly reference?)
+```
+
+
+### Protected Internal
+```cs
+namespace AccessModifiersLibrary
+{
+    public class ClassA
+    {
+        protected internal void MethodClassA()
+        {
+
+        }
+    }
+
+    public class ClassB:ClassA
+    {
+        protected internal void MethodClassB()
+        {
+            MethodClassA();
+        }
+    }
+
+    public class ClassC
+    {
+        public void MethodClassC()
+        {
+            ClassA classA=new ClassA();
+            classA.MethodClassA();
+        }
+    }
+}
+
+
+
+using AccessModifiersLibrary;
+
+ namespace AccessModifiers
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            ClassC classC=new ClassC();
+            classC.MethodClassC();
+        }
+    }
+}
+
+//Compiler output
+The code successfully compiles with no error.
+```
+
+
+### Sealed Classes
+
+```cs
+namespace AccessModifiers
+{
+    sealed class AAA
+    {
+        public int x = 100;
+        public void MethodA()
+        {
+            Console.WriteLine("Method A in sealed class");
+        }
+    }
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            AAA aaa=new AAA();
+            Console.WriteLine(aaa.x);
+            aaa.MethodA();
+            Console.ReadKey();
+        }
+    }
+}
+//Compiler Output
+//100
+//Method A in sealed class
+```
+	
+	
+```cs	
+ namespace AccessModifiers
+{
+    sealed class AAA
+    {
+
+    }
+    class BBB:AAA
+    {
+
+    }
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+        }
+    }
+}
+
+//Compiler Output
+'AccessModifiers.BBB': cannot derive from sealed type 'AccessModifiers.AAA'	
+```
+
+
+### Constants
+```cs
+public class Program
+ {
+     private const int x = 100;
+     public static void Main(string[] args)
+     {
+         Console.WriteLine(x);
+         Console.ReadKey();
+     }
+ }
+ Output
+ 100 
+ ```
+ 
+ ```cs
+ namespace AccessModifiers
+{
+    public class Program
+    {
+        private const int x = y + 100;
+        private const int y = z - 10;
+        private const int z = 300;
+
+        public static void Main(string[] args)
+        {
+           System.Console.WriteLine("{0} {1} {2}",x,y,z);
+            Console.ReadKey();
+        }
+    }
+}
+
+Output
+390 290 300
+```
+
+```cs
+namespace AccessModifiers
+{
+    public class Program
+    {
+        private const int x = y + 100;
+        private const int y = z - 10;
+        private const int z = x;
+
+        public static void Main(string[] args)
+        {
+           System.Console.WriteLine("{0} {1} {2}",x,y,z);
+            Console.ReadKey();
+        }
+    }
+}
+Output
+The evaluation of the constant value for 'AccessModifiers.Program.x' involves a circular definition
+```
+
+```cs
+//A const is a variable whose value once assigned cannot be modified, but its value is determined at compile time only.
+namespace AccessModifiers
+{
+    public class Program
+    {
+        public const ClassA classA=new ClassA();
+        public static void Main(string[] args)
+        {
+        }
+    }
+
+   public class ClassA
+    {
+
+    }
+}
+//Output
+Compile time error: 'AccessModifiers.Program.classA' is of type 'AccessModifiers.ClassA'.
+A const field of a reference type other than string can only be initialized with null.
+```
+
+```cs
+public class ClassA
+    {
+        public const int aaa = 10;
+    }
+	
+	public class Program
+    {
+        public static void Main(string[] args)
+        {
+            ClassA classA=new ClassA();
+            Console.WriteLine(classA.aaa);
+            Console.ReadKey();
+        }
+    }
+
+Output
+Compile time error: Member 'AccessModifiers.ClassA.aaa'
+cannot be accessed with an instance reference; qualify it with a type name instead 
+```
+
+```cs
+//Just mark the const as static.
+using System;
+namespace AccessModifiers
+{
+    public class ClassA
+    {
+        public static const int aaa = 10;
+    }
+
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            ClassA classA=new ClassA();
+            Console.WriteLine(classA.aaa);
+            Console.ReadKey();
+        }
+    }
+}
+
+Output
+Compile time error: The constant 'AccessModifiers.ClassA.aaa' cannot be marked static
+```
+
+```cs
+namespace AccessModifiers
+{
+    public class ClassA
+    {
+        public const int xxx = 10;
+    }
+
+    public class ClassB:ClassA
+    {
+        public const int xxx = 100;
+    }
+
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            Console.WriteLine(ClassA.xxx);
+            Console.WriteLine(ClassB.xxx);
+            Console.ReadKey();
+        }
+    }
+}
+Output
+10
+100
+Compiler Warning: 'AccessModifiers.ClassB.xxx' hides inherited
+member 'AccessModifiers.ClassA.xxx'. Use the new keyword if hiding was intended.
+```
+
+
+## Static Fields
+```cs
+namespace AccessModifiers
+{
+    public class Program
+    {
+        private static int x;
+        private static Boolean y;
+        public static void Main(string[] args)
+        {
+            Console.WriteLine(x);
+            Console.WriteLine(y);
+            Console.ReadKey();
+        }
+    }
+}
+
+Output
+0
+False
+```
+
+```cs
+namespace AccessModifiers
+{
+    public class Program
+    {
+         int x = y + 10;
+         int y = x + 5;
+        public static void Main(string[] args)
+        {
+
+        }
+    }
+}
+
+Output
+Compile time error:
+A field initializer cannot reference the non-static field, method, or property 'AccessModifiers.Program.y'
+A field initializer cannot reference the non-static field, method, or property 'AccessModifiers.Program.x'
+```
+
+### Readonly Fields
+```cs
+namespace AccessModifiers
+{
+    public class Program
+    {
+        public static readonly int x = 100;
+
+        public static void Main(string[] args)
+        {
+            Console.WriteLine(x);
+            Console.ReadKey();
+        }
+    }
+}
+
+Output
+100
+```
+
+```cs
+namespace AccessModifiers
+{
+    public class Program
+    {
+        public static readonly int x = 100;
+
+        public static void Main(string[] args)
+        {
+            x = 200;
+            Console.WriteLine(x);
+            Console.ReadKey();
+        }
+    }
+}
+
+Output
+Compile time error: A static readonly field cannot be assigned to
+(except in a static constructor or a variable initializer).
+```
+
+
+```cs
+namespace AccessModifiers
+{
+    public class Program
+    {
+        public static readonly int x;
+
+        static Program()
+        {
+            x = 100;
+            Console.WriteLine("Inside Constructor");
+        }
+
+        public static void Main(string[] args)
+        {
+            Console.WriteLine(x);
+            Console.ReadKey();
+        }
+    }
+}
+Inside Constructor
+100
+```
+
+```cs
+namespace AccessModifiers
+{
+    public class ClassA
+    {
+        public int readonly x= 100;
+    }
+    public class Program
+    {
+      public static void Main(string[] args)
+        {
+        }
+    }
+}
+
+Output
+Compile time error:
+Member modifier 'readonly' must precede the member type and name
+Invalid token '=' in class, struct, or interface member declaration
+```
+
 # Methods
 # Expressions and Operators
 # Statements
