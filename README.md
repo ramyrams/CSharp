@@ -617,6 +617,258 @@ public class RichTextBox : TextBox
 ## Statements
 ## Structs
 ## Enumerations
+```cs
+namespace Enums
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+			Console.WriteLine(Color.Yellow);		//Output: Yellow
+			Console.WriteLine((int)Color.Yellow);	//Output: 0
+        }
+    }
+
+    enum Color
+    {
+        Yellow,
+        Blue,
+        Brown,
+        Green
+    }
+}
+```
+
+### Underlying Data type & Inheritance
+
+```cs
+static void Main(string[] args)
+{
+	Console.WriteLine((byte)Color.Yellow);	//Output: 0
+	Console.WriteLine((byte)Color.Blue);	//Output: 1
+}
+
+enum Color:byte
+{
+	Yellow,
+	Blue,
+	Brown,
+	Green
+}
+
+
+```
+
+
+### Inheritance in Enum
+By default, enum is a sealed class and therefore sticks to all the rules that a sealed class follows, so no class can derive from enum, i.e., a sealed type.
+```cs
+enum Shades:Color
+{
+
+}
+//Output
+//Compile time error: 'Enums.Derived': cannot derive from sealed type 'Enums.Color'
+```
+
+```cs
+internal enum Color: System.Enum
+{
+	Yellow,
+	Blue
+}
+//Output
+//Compile time error: Type byte, sbyte, short, ushort, int, uint, long, or ulong expected.
+
+```
+
+### IComparable
+```cs
+internal enum Color
+{
+	Yellow,
+	Blue,
+	Green
+}
+
+private static void Main(string[] args)
+{
+	Console.WriteLine(Color.Yellow.CompareTo(Color.Blue));
+	Console.WriteLine((byte)Color.Yellow);
+	Console.ReadLine();
+}
+		
+//Output -1
+```
+
+### IFormattable
+```cs
+internal enum Color
+{
+	Yellow,
+	Blue,
+	Green
+}
+
+private static void Main(string[] args)
+{
+	System.Console.WriteLine(Color.Format(typeof(Color), Color.Green, "X"));
+	System.Console.WriteLine(Color.Format(typeof(Color), Color.Green, "d"));
+	Console.ReadLine();
+}
+//Output		
+00000002
+2	
+
+```
+	
+	
+### IConvertible	
+```cs
+
+enum Color
+{
+	Yellow,
+	Blue,
+	Green
+}
+	
+private static void Main(string[] args)
+{
+	string[] names;
+	names = Color.GetNames(typeof (Color));
+	foreach (var name in names)
+	{
+		Console.WriteLine(name);
+	}
+	Console.ReadLine();
+}
+		
+```	
+	
+	
+	
+	
+```cs
+using System;
+namespace Enums
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine((int)Color.Yellow);
+            Console.WriteLine((int)Color.Blue);
+            Console.WriteLine((int)Color.Brown);
+            Console.WriteLine((int)Color.Green);
+            Console.ReadLine();
+        }
+    }
+
+    enum Color
+    {
+        Yellow =2,
+        Blue,
+        Brown=9,
+        Green,
+		Red = Yellow
+
+    }
+}
+//Output
+2
+3
+9
+10
+
+```	
+
+```cs
+class Program
+    {
+        static void Main(string[] args)
+        {
+            Color.Yellow = 3;
+        }
+    }
+
+    enum Color
+    {
+        Yellow = 2,
+        Blue
+    }
+
+//Output
+Compile time error: The left-hand side of an assignment must be a variable, property or indexer
+```
+
+
+```cs
+enum Color:byte
+    {
+        Yellow =300 ,
+        Blue,
+        Brown=9,
+        Green,
+    }
+::Output
+Compile time error: Constant value '300' cannot be converted to a 'byte'
+
+
+```	
+
+```cs
+enum Color
+{
+	Yellow,
+	Blue,
+	Brown,
+	Green,
+	Blue
+}
+//Output
+Compile time error: The type 'Enums.Color' already contains a definition for 'Blue'	
+```
+
+### Circular Dependency
+```cs
+internal enum Color
+{
+	Yellow=Blue,
+	Blue
+}
+
+//Output
+Compile time error: The evaluation of the constant value for 'Enums.Color.Yellow' involves a circular definition
+```
+	
+###  Diving Deep
+
+```cs
+enum Color
+{
+
+}
+
+Color color = (Color) -1;
+
+::Output
+Compile time error: 
+To cast a negative value, you must enclose the value in parentheses
+'Enums.Color' is a 'type' but is used like a 'variable'
+```
+
+
+```cs
+enum Color
+{
+  value__
+}
+//Output
+Compile time error: The enumerator name 'value__' is reserved and cannot be used
+
+```	
+	
 ## Arrays
 ## Delegates
 ## Events
