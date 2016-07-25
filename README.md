@@ -177,7 +177,161 @@ class Octopus
 }
 ```
 
+### Methods
+```cs
+Static modifier: static
+Access modifiers: public internal private protected
+Inheritance modifiers: new virtual abstract override sealed
+Partial method modifier: partial
+Unmanaged code modifiers: unsafe extern
 
+
+
+//Overloading methods
+void Foo (int x) {...}
+void Foo (double x) {...}
+void Foo (int x, float y) {...}
+void Foo (float x, int y) {...}
+
+void Foo (int x) {...}
+float Foo (int x) {...} // Compile-time error
+void Goo (int[] x) {...}
+void Goo (params int[] x) {...} // Compile-time error
+
+
+//Pass-by-value versus pass-by-reference
+void Foo (int x) {...}
+void Foo (ref int x) {...} // OK so far
+void Foo (out int x) {...} // Compile-time error
+
+//Partial methods
+partial class PaymentForm // In auto-generated file
+{
+	...
+	partial void ValidatePayment (decimal amount);
+}	
+
+partial class PaymentForm // In hand-authored file
+{
+	...
+	partial void ValidatePayment (decimal amount)
+	{
+		if (amount > 100)
+		...
+	}
+}
+```
+
+### Constructors
+```cs
+Access modifiers: public internal private protected
+Unmanaged code modifiers: unsafe extern
+
+//Overloading constructors
+public class Wine
+{
+	public decimal Price;
+	public int Year;
+	public Wine (decimal price) { Price = price; }
+	public Wine (decimal price, int year) : this (price) { Year = year; }
+}
+
+
+public class Class1
+{
+	Class1() {} // Private constructor
+	public static Class1 Create (...)
+	{
+		// Perform custom logic here to return an instance of Class1
+		...
+	}
+}
+```
+
+### Static Constructors
+```cs
+class Test
+{
+	static Test() {
+		Console.WriteLine ("Type Initialized"); 
+	}
+}
+```
+
+### The this Reference
+```cs
+public class Panda
+{
+	public Panda Mate;
+	public void Marry (Panda partner)
+	{
+		Mate = partner;
+		partner.Mate = this;
+	}
+}
+```
+
+### Properties
+
+
+#### Read-only and calculated properties
+
+#### Automatic properties
+
+#### get and set accessibility
+
+#### CLR property implementation
+```cs
+public decimal get_CurrentPrice {...}
+public void set_CurrentPrice (decimal value) {...}
+```
+### Indexers
+
+
+#### Implementing an indexer
+```cs
+class Sentence
+{
+	string[] words = "The quick brown fox".Split();
+	
+	public string this [int wordNum] // indexer
+	{
+		get { return words [wordNum]; }
+		set { words [wordNum] = value; }
+	}
+}
+
+Sentence s = new Sentence();
+Console.WriteLine (s[3]); // fox
+s[3] = "kangaroo";
+Console.WriteLine (s[3]); // kangaroo
+```
+
+### Constants
+```cs
+public class Test
+{
+	public const string Message = "Hello World";
+}
+```
+### Finalizers
+```cs
+class Class1
+{
+	~Class1()
+	{
+		...
+	}
+}
+
+//This is actually C# syntax for overriding Object’s Finalize method, 
+//and the compiler expands it into the following method declaration:
+protected override void Finalize()
+{
+	...
+	base.Finalize();
+}
+```
 
 
 
