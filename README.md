@@ -36,9 +36,9 @@
 * [Streams and I/O](#streams-and-I/O)
 * [Diagnostics and Code Contracts](#diagnostics-and-code-Contracts)
 
-## Types, Storage, and Variables
+# Types, Storage, and Variables
 
-### Numeric Types
+## Numeric Types
 ```cs
 //Integral literals
 int x = 127;
@@ -67,10 +67,10 @@ short z = (short)x; // Explicit conversion to 16-bit integral
 
 
 
-### Boolean Type
+## Boolean Type
 
 
-### Strings and Characters
+## Strings and Characters
 ```cs
 char c = 'A'; // Simple character
 char newLine = '\n';
@@ -98,9 +98,9 @@ string xml = @"<customer id=""123""></customer>";
 
 
 
-## Classes
+# Classes
 
-### Classes
+## Classes
 ```cs
 //public, internal, abstract, sealed, static, unsafe, and partial
 class YourClassName
@@ -108,7 +108,7 @@ class YourClassName
 }
 ```
 
-### Fields
+## Fields
 ```cs
 //Static modifier: static
 //Access modifiers: public internal private protected
@@ -124,7 +124,7 @@ class Octopus
 }
 ```
 
-### Methods
+## Methods
 ```cs
 Static modifier: static
 Access modifiers: public internal private protected
@@ -169,7 +169,7 @@ partial class PaymentForm // In hand-authored file
 }
 ```
 
-### Constructors
+## Constructors
 ```cs
 Access modifiers: public internal private protected
 Unmanaged code modifiers: unsafe extern
@@ -195,7 +195,7 @@ public class Class1
 }
 ```
 
-### Static Constructors
+## Static Constructors
 ```cs
 class Test
 {
@@ -205,7 +205,7 @@ class Test
 }
 ```
 
-### The this Reference
+## The this Reference
 ```cs
 public class Panda
 {
@@ -218,24 +218,24 @@ public class Panda
 }
 ```
 
-### Properties
+## Properties
 
 
-#### Read-only and calculated properties
+### Read-only and calculated properties
 
-#### Automatic properties
+### Automatic properties
 
-#### get and set accessibility
+### get and set accessibility
 
-#### CLR property implementation
+### CLR property implementation
 ```cs
 public decimal get_CurrentPrice {...}
 public void set_CurrentPrice (decimal value) {...}
 ```
-### Indexers
+## Indexers
 
 
-#### Implementing an indexer
+### Implementing an indexer
 ```cs
 class Sentence
 {
@@ -282,7 +282,7 @@ protected override void Finalize()
 
 
 
-## Inheritance
+# Inheritance
 ```cs
 public class Asset
 {
@@ -301,7 +301,7 @@ public class House : Asset // inherits from Asset
 
 ```
 
-## Polymorphism
+# Polymorphism
 ```cs
 public static void Display (Asset asset)
 {
@@ -315,7 +315,7 @@ Display (msft);
 Display (mansion);
 ``
 
-### Upcasting
+## Upcasting
 ```cs
 Stock msft = new Stock();
 Asset a = msft; // Upcast
@@ -324,7 +324,7 @@ Console.WriteLine (a.Name); // OK
 Console.WriteLine (a.SharesOwned); // Error: SharesOwned undefined
 ```
 
-### Downcasting
+## Downcasting
 ```cs
 Stock msft = new Stock();
 Asset a = msft; // Upcast
@@ -340,7 +340,7 @@ Asset a = h; // Upcast always succeeds
 Stock s = (Stock)a; // Downcast fails: a is not a Stock
 ```
 
-### The as operator
+## The as operator
 ```cs
 Asset a = new Asset();
 Stock s = a as Stock; // s is null; no exception thrown
@@ -349,7 +349,7 @@ int shares = ((Stock)a).SharesOwned; // Approach #1
 int shares = (a as Stock).SharesOwned; // Approach #2
 ```
 
-### The is operator
+## The is operator
 ```cs
 
 ```
@@ -361,7 +361,7 @@ int shares = (a as Stock).SharesOwned; // Approach #2
 ```cs
 ```
 
-#### Abstract Classes and Abstract Members
+### Abstract Classes and Abstract Members
 ```cs
 public abstract class Asset
 {
@@ -459,13 +459,13 @@ while (e.MoveNext())
 	Console.Write (e.Current); // 109876543210
 ```	
 	
-#### Extending an Interface	
+### Extending an Interface	
 ```cs
 public interface IUndoable { void Undo(); }
 public interface IRedoable : IUndoable { void Redo(); }
 ```
 
-#### Explicit Interface Implementation
+### Explicit Interface Implementation
 ```cs
 interface I1 { void Foo(); }
 interface I2 { int Foo(); }
@@ -559,11 +559,11 @@ public class RichTextBox : TextBox
 	protected override void Undo() { Console.WriteLine("RichTextBox.Undo"); }
 }
 ```
-## Methods
-## Expressions and Operators
-## Statements
-## Structs
-## Enumerations
+# Methods
+# Expressions and Operators
+# Statements
+# Structs
+# Enumerations
 ```cs
 namespace Enums
 {
@@ -816,8 +816,8 @@ Compile time error: The enumerator name 'value__' is reserved and cannot be used
 
 ```	
 	
-## Arrays
-### Arrays
+# Arrays
+
 ```cs
 char[] vowels = new char[5]; // Declare an array of 5 characters
 
@@ -871,10 +871,10 @@ int[][] matrix = new int[][]
 	new int[] {6,7,8,9}
 };
 ```
-## Delegates
-## Events
-## Conversions
-## Generics
+# Delegates
+# Events
+# Conversions
+# Generics
 ```cs
 public class Stack<T>
 {
@@ -916,26 +916,26 @@ class IntStack : Stack<int> {...}
 
 ```
 
-## Enumerators and Iterators
-## Exceptions
-## Preprocessor Directives
-## Reflection and Attributes
-## Dynamic Binding
-## Disposal and Garbage Collection
-## Serialization
-## Application Domains
-## Collections
-## Lambda
-## Asynchronous Programming
-## Concurrency & Asynchrony
-## Native and COM Interoperability
-## Parallel Programming
-## Advanced Threading
-## Security
-## Reflection and Metadata
-## Networking
-## Streams and I/O
-## Diagnostics and Code Contracts
+# Enumerators and Iterators
+# Exceptions
+# Preprocessor Directives
+# Reflection and Attributes
+# Dynamic Binding
+# Disposal and Garbage Collection
+# Serialization
+# Application Domains
+# Collections
+# Lambda
+# Asynchronous Programming
+# Concurrency & Asynchrony
+# Native and COM Interoperability
+# Parallel Programming
+# Advanced Threading
+# Security
+# Reflection and Metadata
+# Networking
+# Streams and I/O
+# Diagnostics and Code Contracts
 
 ```cs
 //Multiple-Variable Declarations
