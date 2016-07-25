@@ -152,6 +152,35 @@ int[][] matrix = new int[][]
 ```
 
 ## Classes
+
+### Classes
+```cs
+//public, internal, abstract, sealed, static, unsafe, and partial
+class YourClassName
+{
+}
+```
+
+### Fields
+```cs
+//Static modifier: static
+//Access modifiers: public internal private protected
+//Inheritance modifier: new
+//Unsafe code modifier: unsafe
+//Read-only modifier: readonly
+//Threading modifier: volatile
+
+class Octopus
+{
+	string name;
+	public int Age = 10;
+}
+```
+
+
+
+
+
 ## Inheritance
 ## Interfaces
 ## Methods
