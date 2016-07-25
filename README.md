@@ -37,6 +37,120 @@
 * [Diagnostics and Code Contracts](#diagnostics-and-code-Contracts)
 
 ## Types, Storage, and Variables
+
+### Numeric Types
+```cs
+//Integral literals
+int x = 127;
+long y = 0x7F;
+
+//Real literals
+double d = 1.5;
+double million = 1E06;
+
+float f = 4.5F;
+decimal d = −1.23M; // Will not compile without the M suffix.
+
+Console.WriteLine ( 1.0.GetType()); // Double (double)
+Console.WriteLine ( 1E06.GetType()); // Double (double)
+Console.WriteLine ( 1.GetType()); // Int32 (int)
+Console.WriteLine ( 0xF0000000.GetType()); // UInt32 (uint)
+```
+
+### Numeric Conversions
+```cs
+int x = 12345; // int is a 32-bit integral
+long y = x; // Implicit conversion to 64-bit integral
+short z = (short)x; // Explicit conversion to 16-bit integral
+```
+
+
+
+
+### Boolean Type
+
+
+### Strings and Characters
+```cs
+char c = 'A'; // Simple character
+char newLine = '\n';
+char backSlash = '\\';
+char copyrightSymbol = '\u00A9';
+char omegaSymbol = '\u03A9';
+char newLine = '\u000A';
+
+
+string a = "Heat";
+string a = "test";
+string b = "test";
+Console.Write (a == b); // True
+
+string a = "Here's a tab:\t";
+string a1 = "\\\\server\\fileshare\\helloworld.cs";
+
+string escaped = "First Line\r\nSecond Line";
+string verbatim = @"First Line
+Second Line";
+
+//include the double-quote character
+string xml = @"<customer id=""123""></customer>";
+```
+
+### Arrays
+```cs
+char[] vowels = new char[5]; // Declare an array of 5 characters
+
+vowels[0] = 'a';
+vowels[1] = 'e';
+vowels[2] = 'i';
+vowels[3] = 'o';
+vowels[4] = 'u';
+Console.WriteLine (vowels[1]); // e
+
+
+char[] vowels = new char[] {'a','e','i','o','u'};
+
+//or simply:
+char[] vowels = {'a','e','i','o','u'};
+
+//Default Element Initialization
+int[] a = new int[1000];
+Console.Write (a[123]); // 0
+
+//Multidimensional Arrays
+int[,] matrix = new int[3,3];
+
+for (int i = 0; i < matrix.GetLength(0); i++)
+	for (int j = 0; j < matrix.GetLength(1); j++)
+		matrix[i,j] = i * 3 + j;
+
+//Simplified Array Initialization Expressions
+int[,] matrix = new int[,]
+{
+	{0,1,2},
+	{3,4,5},
+	{6,7,8}
+};
+
+// Jagged arrays
+int[][] matrix = new int[3][];
+
+for (int i = 0; i < matrix.Length; i++)
+{
+	matrix[i] = new int[3]; // Create inner array
+	for (int j = 0; j < matrix[i].Length; j++)
+	matrix[i][j] = i * 3 + j;
+}
+
+//Simplified Array Initialization Expressions
+int[][] matrix = new int[][]
+{
+	new int[] {0,1,2},
+	new int[] {3,4,5},
+	new int[] {6,7,8,9}
+};
+```
+
 ## Classes
 ## Inheritance
 ## Interfaces
@@ -135,11 +249,17 @@ public class Employee
 	// private field
 	private DateTime date;
 
-	// public field (Generally not recommended.)
+	// Instance field (Generally not recommended.)
 	public string day;
 
-	// public static field 
+	// static field 
 	public static int NumberOfEmployees;
+	
+	public static volatile bool finished;
+	
+	//readonly readonly field
+	public readonly int legs = 8, eyes = 2;
+
 
 
 	//Property
