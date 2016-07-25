@@ -336,7 +336,282 @@ protected override void Finalize()
 
 
 ## Inheritance
+```cs
+public class Asset
+{
+	public string Name;
+}
+
+public class Stock : Asset // inherits from Asset
+{
+	public long SharesOwned;
+}
+
+public class House : Asset // inherits from Asset
+{
+	public decimal Mortgage;
+}
+
+```
+
+## Polymorphism
+```cs
+public static void Display (Asset asset)
+{
+	System.Console.WriteLine (asset.Name);
+}
+
+
+Stock msft = new Stock ... ;
+House mansion = new House ... ;
+Display (msft);
+Display (mansion);
+``
+
+### Upcasting
+```cs
+Stock msft = new Stock();
+Asset a = msft; // Upcast
+Console.WriteLine (a == msft); // True
+Console.WriteLine (a.Name); // OK
+Console.WriteLine (a.SharesOwned); // Error: SharesOwned undefined
+```
+
+### Downcasting
+```cs
+Stock msft = new Stock();
+Asset a = msft; // Upcast
+Stock s = (Stock)a; // Downcast
+Console.WriteLine (s.SharesOwned); // <No error>
+Console.WriteLine (s == a); // True
+Console.WriteLine (s == msft); // True
+```
+
+```cs
+House h = new House();
+Asset a = h; // Upcast always succeeds
+Stock s = (Stock)a; // Downcast fails: a is not a Stock
+```
+
+### The as operator
+```cs
+Asset a = new Asset();
+Stock s = a as Stock; // s is null; no exception thrown
+
+int shares = ((Stock)a).SharesOwned; // Approach #1
+int shares = (a as Stock).SharesOwned; // Approach #2
+```
+
+### The is operator
+```cs
+
+```
+
+
+
+
+## Virtual Function Members
+```cs
+```
+
+#### Abstract Classes and Abstract Members
+```cs
+public abstract class Asset
+{
+	// Note empty implementation
+	public abstract decimal NetValue { get; }
+	}
+	
+	public class Stock : Asset
+	{
+		public long SharesOwned;
+		public decimal CurrentPrice;
+	
+		// Override like a virtual method.
+		public override decimal NetValue
+		{
+			get { return CurrentPrice * SharesOwned; }
+		}
+	}		
+}
+```
+
+
+### Hiding Inherited Members
+```cs
+public class A { public int Counter = 1; }
+public class B : A { public int Counter = 2; }
+
+public class A { public int Counter = 1; }
+public class B : A { public new int Counter = 2; }
+```
+
+### Sealing Functions and Classes
+```cs
+public sealed override decimal Liability { get { return Mortgage; } }
+```
+
+#### The base Keyword
+```cs
+public class House : Asset
+{
+	...
+	public override decimal Liability
+	{
+		get { return base.Liability + Mortgage; }
+	}
+}
+```
+
+### Constructors and Inheritance
+```cs
+public class Baseclass
+{
+	public int X;
+	public Baseclass () { }
+	public Baseclass (int x) { this.X = x; }
+}
+public class Subclass : Baseclass { }
+
+public class Subclass : Baseclass
+{
+	public Subclass (int x) : base (x) { }
+}
+```
+
+### Boxing and Unboxing
+```cs
+int x = 9;
+object obj = x; // Box the int
+
+int y = (int)obj; // Unbox the int
+```
+### Copying semantics of boxing and unboxing
+
+
+
 ## Interfaces
+```cs
+public interface IEnumerator
+{
+	bool MoveNext();
+	object Current { get; }
+	void Reset();
+}
+
+internal class Countdown : IEnumerator
+{
+	int count = 11;
+	public bool MoveNext () { return count-- > 0 ; }
+	public object Current { get { return count; } }
+	public void Reset() { throw new NotSupportedException(); }
+}
+
+IEnumerator e = new Countdown();
+while (e.MoveNext())
+	Console.Write (e.Current); // 109876543210
+```	
+	
+#### Extending an Interface	
+```cs
+public interface IUndoable { void Undo(); }
+public interface IRedoable : IUndoable { void Redo(); }
+```
+
+#### Explicit Interface Implementation
+```cs
+interface I1 { void Foo(); }
+interface I2 { int Foo(); }
+
+public class Widget : I1, I2
+{
+	public void Foo ()
+	{
+		Console.WriteLine ("Widget's implementation of I1.Foo");
+	}
+	
+	int I2.Foo()
+	{
+		Console.WriteLine ("Widget's implementation of I2.Foo");
+		return 42;
+	}
+}
+
+
+Widget w = new Widget();
+w.Foo(); // Widget's implementation of I1.Foo
+((I1)w).Foo(); // Widget's implementation of I1.Foo
+((I2)w).Foo(); // Widget's implementation of I2.Foo
+```
+
+### Implementing Interface Members Virtually
+```cs
+public interface IUndoable { void Undo(); }
+public class TextBox : IUndoable
+{
+	public virtual void Undo()
+	{
+		Console.WriteLine ("TextBox.Undo");
+	}
+
+}
+
+public class RichTextBox : TextBox
+{
+	public override void Undo()
+	{
+		Console.WriteLine ("RichTextBox.Undo");
+	}
+}
+
+RichTextBox r = new RichTextBox();
+r.Undo(); // RichTextBox.Undo
+((IUndoable)r).Undo(); // RichTextBox.Undo
+((TextBox)r).Undo(); // RichTextBox.Undo
+```
+
+### Reimplementing an Interface in a Subclass
+```cs
+public interface IUndoable { void Undo(); }
+public class TextBox : IUndoable
+{
+void IUndoable.Undo() { Console.WriteLine ("TextBox.Undo"); }
+}
+public class RichTextBox : TextBox, IUndoable
+{
+public new void Undo() { Console.WriteLine ("RichTextBox.Undo"); }
+}
+
+RichTextBox r = new RichTextBox();
+r.Undo(); // RichTextBox.Undo Case 1
+((IUndoable)r).Undo(); // RichTextBox.Undo Case 2
+
+
+public class TextBox : IUndoable
+{
+public void Undo() { Console.WriteLine ("TextBox.Undo"); }
+}
+
+
+RichTextBox r = new RichTextBox();
+r.Undo(); // RichTextBox.Undo 				Case 1
+((IUndoable)r).Undo(); // RichTextBox.Undo 	Case 2
+((TextBox)r).Undo(); // TextBox.Undo		Case 3
+```
+
+### Alternatives to interface reimplementation
+```cs
+public class TextBox : IUndoable
+{
+	void IUndoable.Undo() { Undo(); } // Calls method below
+	protected virtual void Undo() { Console.WriteLine ("TextBox.Undo"); }
+}
+
+public class RichTextBox : TextBox
+{
+	protected override void Undo() { Console.WriteLine("RichTextBox.Undo"); }
+}
+```
 ## Methods
 ## Expressions and Operators
 ## Statements
@@ -347,6 +622,47 @@ protected override void Finalize()
 ## Events
 ## Conversions
 ## Generics
+```cs
+public class Stack<T>
+{
+	int position;
+	T[] data = new T[100];
+	public void Push (T obj) { data[position++] = obj; }
+	public T Pop() { return data[--position]; }
+}
+
+Stack<int> stack = new Stack<int>();
+stack.Push(5);
+stack.Push(10);
+int x = stack.Pop(); // x is 10
+int y = stack.Pop(); // y is 5
+```
+
+#### Generic Constraints
+```cs
+where T : base-class // Base-class constraint
+where T : interface // Interface constraint
+where T : class // Reference-type constraint
+where T : struct // Value-type constraint (excludes Nullable types)
+where T : new() // Parameterless constructor constraint
+where U : T // Naked type constraint
+
+class SomeClass {}
+interface Interface1 {}
+
+class GenericClass<T,U> where T : SomeClass, Interface1
+						where U : new()
+{...}
+```
+#### Subclassing Generic Types
+```cs
+class Stack<T> {...}
+class SpecialStack<T> : Stack<T> {...}
+
+class IntStack : Stack<int> {...}
+
+```
+
 ## Enumerators and Iterators
 ## Exceptions
 ## Preprocessor Directives
