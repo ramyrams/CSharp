@@ -367,6 +367,237 @@ public void set_CurrentPrice (decimal value) {...}
 ## Indexers
 
 
+## Index
+```cs
+static void Main(string[] args)
+{
+	Indexer indexer=new Indexer();
+	indexer[1] = 50;
+}
+//Output
+Compile the code. Error Cannot apply indexing with [] to an expression of type 'Indexers.Indexer'
+```
+
+```cs
+namespace Indexers
+{
+    public class Indexer
+    {
+		public int this[int indexValue]
+        {
+            set
+            {
+                Console.WriteLine("I am in set : Value is " + value + " and indexValue is " + indexValue);
+            }
+             get
+            {
+                Console.WriteLine("I am in get and indexValue is " + indexValue);
+                return 30;
+            }
+        }
+    }
+	
+	class Program
+    {
+        static void Main(string[] args)
+        {
+            Indexer indexer=new Indexer();
+            indexer["name"]=20;
+            Console.WriteLine(indexer["name"]);
+        }
+    }
+	
+}
+```
+		
+		
+### Indexers in interfaces
+```cs
+namespace Indexers
+{
+    interface IIndexers
+    {
+        string this[int indexerValue] { get; set; }
+    }
+
+    public class IndexerClass:IIndexers
+    {
+        readonly string[] _nameList = { "AKhil","Bob","Shawn","Sandra" };
+
+        public string this[int indexerValue]
+        {
+            get
+            {
+                return _nameList[indexerValue];
+            }
+            set
+            {
+                _nameList[indexerValue] = value;
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+           IIndexers iIndexer=new IndexerClass();
+            Console.WriteLine(iIndexer[0]);
+            Console.WriteLine(iIndexer[1]);
+            Console.WriteLine(iIndexer[2]);
+            Console.WriteLine(iIndexer[3]);
+            Console.ReadLine();
+
+        }
+    }
+}
+```
+
+### Indexers in Abstract class
+```cs
+namespace Indexers
+{
+	//AbstractBaseClass
+    public abstract class AbstractBaseClass
+    {
+        public abstract string this[int indexerValue] { get; set; }
+    }
+
+	//IndexerClass
+    public class IndexerClass:AbstractBaseClass
+    {
+        readonly string[] _nameList = { "AKhil","Bob","Shawn","Sandra" };
+
+        public override string this[int indexerValue]
+        {
+            get
+            {
+                return _nameList[indexerValue];
+            }
+            set
+            {
+                _nameList[indexerValue] = value;
+            }
+        }
+    }
+}
+
+//Program.cs
+class Program
+{
+	static void Main(string[] args)
+	{
+	   AbstractBaseClass absIndexer=new IndexerClass();
+		Console.WriteLine(absIndexer[0]);
+		Console.WriteLine(absIndexer[1]);
+		Console.WriteLine(absIndexer[2]);
+		Console.WriteLine(absIndexer[3]);
+		absIndexer[2] = "Akhil Mittal";
+		Console.WriteLine(absIndexer[2]);
+
+		Console.ReadLine();
+
+	}
+}
+```
+
+### Indexer Overloading
+```cs
+public class Indexer
+{
+	public int this[int indexerValue]
+	{
+		set
+		{
+			Console.WriteLine("Integer value " + indexerValue + " " + value);
+		}
+	}
+
+	public int this[string indexerValue]
+	{
+		set
+		{
+			Console.WriteLine("String value " + indexerValue + " " + value);
+		}
+	}
+
+	public int this[string indexerValue, int indexerintValue]
+	{
+		set
+		{
+			Console.WriteLine("String and integer value " + indexerValue + " " + indexerintValue + " " + value);
+		}
+	}
+}
+	
+class Program
+{
+	static void Main(string[] args)
+	{
+		Indexer indexer=new Indexer();
+		indexer[1] = 30;
+		indexer["name"]=20;
+		indexer["address",2] = 40;
+		Console.ReadLine();
+	}
+}
+```
+
+### Inheritance/Polymorphism in Indexers
+```cs
+//Indexer.cs
+namespace Indexers
+{
+    public class IndexerBaseClass
+    {
+        public virtual int this[int indexerValue]
+        {
+            get
+            {
+                Console.WriteLine("Get of IndexerBaseClass; indexer value: " + indexerValue);
+                return 100;
+            }
+            set
+            {
+                Console.WriteLine("Set of IndexerBaseClass; indexer value: " + indexerValue + " set value " + value);
+            }
+
+        }
+    }
+    public class IndexerDerivedClass:IndexerBaseClass
+    {
+        public override int this[int indexerValue]
+        {
+            get
+            {
+                int dValue = base[indexerValue];
+                Console.WriteLine("Get of IndexerDerivedClass; indexer value: " + indexerValue + " dValue from base class indexer: " + dValue);
+                return 500;
+            }
+            set
+            {
+                Console.WriteLine("Set of IndexerDerivedClass; indexer value: " + indexerValue + " set value " + value);
+                base[indexerValue] = value;
+            }
+
+        }
+    }
+}
+
+//Program.cs
+class Program
+{
+	static void Main(string[] args)
+	{
+		IndexerDerivedClass indexDerived=new IndexerDerivedClass();
+		indexDerived[2] = 300;
+		Console.WriteLine(indexDerived[2]);
+		Console.ReadLine();
+
+	}
+}
+```	
+
 ### Implementing an indexer
 ```cs
 class Sentence
