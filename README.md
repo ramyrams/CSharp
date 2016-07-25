@@ -2299,3 +2299,28 @@ namespace SecondChangeEvent
    }
 }
 ```
+
+
+### Partial Types
+```cs
+// PaymentFormGen.cs - auto-generated
+partial class PaymentForm { ... }
+
+// PaymentForm.cs - hand-authored
+partial class PaymentForm { ... }
+
+
+//Each participant must have the partial declaration; the following is illegal:
+partial class PaymentForm {}
+class PaymentForm {}
+
+//There are two ways to specify a base class with partial classes:
+//• Specify the (same) base class on each participant. For example:
+partial class PaymentForm : ModalForm {}
+partial class PaymentForm : ModalForm {}
+
+//• Specify the base class on just one participant. For example:
+partial class PaymentForm : ModalForm {}
+partial class PaymentForm {}
+```
+
