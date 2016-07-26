@@ -644,6 +644,462 @@ protected override void Finalize()
 ```
 
 
+## Abstract Classes
+
+### Abstract Classes in Action
+* We cannot create an object of abstract class using new keyword. 
+* Seems that the class is useless for us as we cannot use it for other practical purposes as we used to do.
+
+```cs
+namespace InheritanceAndPolymorphism
+{
+    public abstract class ClassA
+    {  }
+
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            ClassA classA = new ClassA();
+        }
+    }
+}
+
+//Output
+//Compile time error: Cannot create an instance of the abstract class or interface 'InheritanceAndPolymorphism.ClassA'
+```
+
+### Non Abstract Method Definition in Abstract Class
+```cs
+public abstract class ClassA
+{
+	//add some code to our abstract class:
+    public int a;
+    public void XXX()
+    {    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+		//we cannot use new if we have already used an abstract modifier.
+        ClassA classA = new ClassA();
+        Console.ReadKey();
+    }
+}
+Output
+Compile time error: Cannot create an instance of the abstract class or interface 'InheritanceAndPolymorphism.ClassA'
+```
+
+### Abstract Class Acting as a Base Class
+```cs
+public abstract class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+    }
+}
+
+public class ClassB:ClassA
+{
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+		// A class can be derived from abstract class. 
+		// Creating an object of ClassB does not gives us any error.
+        ClassB classB = new ClassB();
+    }
+}
+```
+
+### Non Abstract Method Declaration in Abstract Class
+```cs
+public abstract class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+
+    }
+
+    public void YYY();
+}
+
+//A class can be derived from an abstract class.
+public class ClassB:ClassA
+{
+
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+		//A object of a class derived from an abstract class can be created using new.
+        ClassB classB = new ClassB();
+        Console.ReadKey();
+    }
+}
+
+//Output
+//Compile time error: 'InheritanceAndPolymorphism.ClassA.YYY()' must declare a body because it is not marked abstract, extern, or partial
+```
+
+###  Abstract Method Declaration in Abstract Class
+```cs
+public abstract class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+    }
+
+   abstract public void YYY();
+}
+
+public class ClassB:ClassA
+{
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassB classB = new ClassB();
+    }
+}
+
+Output
+Compiler error: 'InheritanceAndPolymorphism.ClassB' does not implement  inherited abstract member 'InheritanceAndPolymorphism.ClassA.YYY()'
+```
+
+### Abstract Method Implementation in Derived Class
+```cs
+public abstract class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+    }
+
+   abstract public void YYY();
+}
+
+
+public class ClassB:ClassA
+{
+    public void YYY()
+    {
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassB classB = new ClassB();
+    }
+}
+
+Output
+Compile time error: 'InheritanceAndPolymorphism.ClassB' does not implement inherited abstract member 'InheritanceAndPolymorphism.ClassA.YYY()'
+Compile time warning: 'InheritanceAndPolymorphism.ClassB.YYY()' hides inherited member 'InheritanceAndPolymorphism.ClassA.YYY()'.
+```
+
+
+### Abstract Method Declaration in Abstract Class
+```cs
+public abstract class ClassA
+{
+	public int a;
+	public void XXX()
+	{
+	}
+
+	abstract public void YYY();
+}
+
+
+public class ClassB:ClassA
+{
+	//If any method as abstract in our abstract class, then derived class must  provide the body for that abstract method
+	//unless a body is provided for that abstract method, we cannot create an object of that derived class.
+	public override void YYY()
+	{
+	}
+}
+
+public class Program
+{
+	private static void Main(string[] args)
+	{
+		ClassB classB = new ClassB();
+	}
+}
+Output
+Compiler error: 'InheritanceAndPolymorphism.ClassB' does not implement inherited abstract member 'InheritanceAndPolymorphism.ClassA.YYY()'
+```	
+	
+### Abstract Method Implementation in Derived Class
+```cs
+public abstract class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+    }
+
+   abstract public void YYY();
+}
+
+public class ClassB:ClassA
+{
+    public void YYY()
+    {
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassB classB = new ClassB();
+    }
+}
+
+Output
+Two compile time errors this time:
+Compile time error: 'InheritanceAndPolymorphism.ClassB' does not implement inherited abstract member 'InheritanceAndPolymorphism.ClassA.YYY()'
+Compile time warning: 'InheritanceAndPolymorphism.ClassB.YYY()' hides inherited member 'InheritanceAndPolymorphism.ClassA.YYY()'.
+
+```
+
+```cs
+To make a member override that implementation, add the override keyword.
+public abstract class ClassA
+{
+	public int a;
+	public void XXX()
+	{
+	}
+
+   abstract public void YYY();
+}
+
+public class ClassB:ClassA
+{
+	public override void YYY()
+	{
+	}
+}
+
+public class Program
+{
+	private static void Main(string[] args)
+	{
+		ClassB classB = new ClassB();
+	}
+}
+```
+	
+	
+### Abstract Method Implementation in Derived Class with Different Return Type
+```cs
+public abstract class ClassA
+{
+  public int a;
+  public void XXX()
+  {
+  }
+
+ abstract public void YYY();
+}
+
+public class ClassB:ClassA
+{
+  public override int YYY()
+  {
+  }
+}
+
+
+public class Program
+{
+  private static void Main(string[] args)
+  {
+	  ClassB classB = new ClassB();
+  }
+}
+ 
+Output
+Compile time error: 'InheritanceAndPolymorphism.ClassB.YYY()': return type must be 'void' to match overridden member 'InheritanceAndPolymorphism.ClassA.YYY()'
+```
+	
+
+```cs
+public abstract class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+    }
+
+   abstract public void YYY();
+   abstract public void YYY1();
+   abstract public void YYY2();
+   abstract public void YYY3();
+}
+
+public class ClassB:ClassA
+{
+    public override void YYY()
+    {
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassB classB = new ClassB();
+    }
+}
+
+Compiler error:
+'InheritanceAndPolymorphism.ClassB' does not implement inherited abstract member 'InheritanceAndPolymorphism.ClassA.YYY3()'
+'InheritanceAndPolymorphism.ClassB' does not implement inherited abstract member 'InheritanceAndPolymorphism.ClassA.YYY2()'
+'InheritanceAndPolymorphism.ClassB' does not implement inherited abstract member 'InheritanceAndPolymorphism.ClassA.YYY1()'
+```
+	
+### Abstract Method in Non Abstract Class
+```cs
+public class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+    }
+
+   abstract public void YYY();
+}
+
+public class ClassB:ClassA
+{
+    public override void YYY()
+    {
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassB classB = new ClassB();
+    }
+}
+
+Output
+Compiler error: 'InheritanceAndPolymorphism.ClassA.YYY()' is abstract but it is contained in non-abstract class 'InheritanceAndPolymorphism.ClassA'
+```
+
+### Abstract Base Method
+```cs
+public abstract class ClassA
+{
+    public int a;
+    public void XXX()
+    {
+    }
+
+   abstract public void YYY();
+}
+
+public class ClassB:ClassA
+{
+    public override void YYY()
+    {
+         base.YYY();
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassB classB = new ClassB();
+    }
+}
+Output
+Compile time error : Cannot call an abstract base member: 'InheritanceAndPolymorphism.ClassA.YYY()'
+```
+
+### Abstract Class Acting as Derived as Well as Base Class
+```cs
+public class ClassA
+{
+    public virtual void XXX()
+    {
+        Console.WriteLine("ClassA XXX");
+    }
+}
+
+public abstract class ClassB:ClassA
+{
+    public new abstract void XXX();
+}
+
+public class ClassC:ClassB
+{
+    public override void XXX()
+    {
+        System.Console.WriteLine("ClassC XXX");
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassA classA = new ClassC();
+        ClassB classB = new ClassC();
+        classA.XXX(); classB.XXX();
+    }
+}	
+Output
+ClassA XXX
+ClassC XXX
+```
+
+
+### Can Abstract Class be Sealed?
+* Abstract class cannot be sealed class.
+* Abstract class cannot be a static class.
+```cs
+public sealed abstract class ClassA
+{
+    public abstract void XXX()
+    {
+        Console.WriteLine("ClassA XXX");
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+    }
+}
+
+Output
+Compile time error: 'InheritanceAndPolymorphism.ClassA': an abstract class cannot be sealed or static 
+```
+
+
 
 # Inheritance
 ```cs
