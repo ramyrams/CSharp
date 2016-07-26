@@ -54,7 +54,6 @@ public class Program
     }
 
 Output
-
 0
 False
 ```
