@@ -53,7 +53,7 @@ public class Program
         }
     }
 
-Output
+**Output**
 0
 False
 ```
