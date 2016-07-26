@@ -58,6 +58,234 @@ public class Program
 False
 ```
 
+
+## Namespaces
+```cs
+//Namespaces
+System.Security.Cryptography
+
+//fully qualified name
+System.Security.Cryptography.RSA rsa = System.Security.Cryptography.RSA.Create();
+
+namespace Outer.Middle.Inner
+{
+	class Class1 {}
+	class Class2 {}
+}
+
+
+namespace Outer
+{
+	namespace Middle
+	{
+		namespace Inner
+		{
+			class Class1 {}
+			class Class2 {}
+		}
+	}
+}
+
+//using Directive
+using Outer.Middle.Inner;
+```
+
+### Rules Within a Namespace
+#### Name scoping
+```cs
+//Names declared in outer namespaces can be used unqualified within inner namespaces.
+
+namespace Outer
+	{
+	namespace Middle
+	{
+		class Class1 {}
+		
+		namespace Inner
+		{
+			class Class2 : Class1 {}
+		}
+	}
+}
+```
+
+```cs
+namespace MyTradingCompany
+{
+	namespace Common
+	{
+		class ReportBase {}
+	}
+	
+	namespace ManagementReporting
+	{
+		class SalesReport : Common.ReportBase {}
+	}
+}
+```
+
+#### Name hiding
+```cs
+//If the same type name appears in both an inner and an outer namespace, the inner name wins.
+namespace Outer
+{
+	class Foo { }
+	namespace Inner
+	{
+		class Foo { }
+		class Test
+		{
+			Foo f1; // = Outer.Inner.Foo
+			Outer.Foo f2; // = Outer.Foo
+		}
+	}
+}
+```
+
+#### Repeated namespaces
+```cs
+//You can repeat a namespace declaration, as long as the type names within the namespaces don’t conflict
+
+//Source file 1:
+namespace Outer.Middle.Inner
+{
+	class Class1 {}
+}
+
+Source file 2:
+namespace Outer.Middle.Inner
+{
+	class Class2 {}
+}
+```
+
+#### Nested using directive
+```
+namespace N1
+{
+	class Class1 {}
+}
+
+namespace N2
+{
+	using N1;
+	class Class2 : Class1 {}
+}
+
+namespace N2
+{
+	class Class3 : Class1 {} // Compile-time error
+}
+```
+
+### Aliasing Types and Namespaces
+```cs
+using PropertyInfo2 = System.Reflection.PropertyInfo;
+class Program { PropertyInfo2 p; }
+
+//An entire namespace can be aliased, as follows:
+using R = System.Reflection;
+class Program { R.PropertyInfo p; }
+```
+
+### Advanced Namespace Features
+
+#### Extern
+```
+//Library 1:
+// csc target:library /out:Widgets1.dll widgetsv1.cs
+namespace Widgets
+{
+	public class Widget {}
+}
+
+//Library 2:
+// csc target:library /out:Widgets2.dll widgetsv2.cs
+namespace Widgets
+{
+	public class Widget {}
+}
+
+//Application:
+// csc /r:Widgets1.dll /r:Widgets2.dll application.cs
+using Widgets;
+class Test
+{
+	static void Main()
+	{
+		Widget w = new Widget();
+	}
+}
+
+
+//The application cannot compile, because Widget is ambiguous. 
+//Extern aliases can resolve the ambiguity in our application:
+// csc /r:W1=Widgets1.dll /r:W2=Widgets2.dll application.cs
+
+extern alias W1;
+extern alias W2;
+class Test
+{
+	static void Main()
+	{
+		W1.Widgets.Widget w1 = new W1.Widgets.Widget();
+		W2.Widgets.Widget w2 = new W2.Widgets.Widget();
+	}
+}
+```
+
+#### Namespace alias qualifiers
+```
+// The global namespace—the root of all namespaces (keyword global)
+// The set of extern aliases
+
+namespace N
+{
+	class A
+	{
+		public class B {} // Nested type
+		static void Main() { new A.B(); } // Instantiate class B
+	}
+}
+
+namespace A
+{
+	class B {}
+}
+
+
+namespace N
+{
+	class A
+	{
+		static void Main()
+		{
+			System.Console.WriteLine (new A.B());
+			System.Console.WriteLine (new global::A.B());
+		}
+		public class B {}
+	}
+}
+namespace A
+{
+	class B {}
+}
+```
+
+```cs
+extern alias W1;
+extern alias W2;
+
+class Test
+{
+	static void Main()
+	{
+		W1::Widgets.Widget w1 = new W1::Widgets.Widget();
+		W2::Widgets.Widget w2 = new W2::Widgets.Widget();
+	}
+}
+```
+
 ## Numeric Types
 ```cs
 //Integral literals
