@@ -1100,6 +1100,1187 @@ Compile time error: 'InheritanceAndPolymorphism.ClassA': an abstract class canno
 ```
 
 
+## Polymorphism
+
+### Method Overloading or Early Binding or Compile Time Polymorphism
+*  C# recognizes the method by its parameters and not only by its name.
+```cs
+public class Overload
+{
+  public void DisplayOverload(int a){
+	  System.Console.WriteLine("DisplayOverload " + a);
+  }
+  public void DisplayOverload(string a){
+	  System.Console.WriteLine("DisplayOverload " + a);
+  }
+  public void DisplayOverload(string a, int b){
+	  System.Console.WriteLine("DisplayOverload " + a + b);
+  }
+}
+```
+
+
+```cs
+public void DisplayOverload() { }
+public int DisplayOverload(){ }
+
+Output
+Error: Type 'InheritanceAndPolymorphism.Overload' already defines a member called 'DisplayOverload' with the same parameter types
+
+Point to remember: The return value/parameter type of a method is never the part of method signature if the names of the methods are same. So this is not polymorphism.
+Point to remember: Modifiers such as static are not considered as part of method signature.
+```
+
+## xx
+```cs
+private void DisplayOverload(int a) {   }
+
+private void DisplayOverload(out int a)
+{
+	a = 100;
+}
+
+private void DisplayOverload(ref int a) {   }
+
+Output
+Error: Cannot define overloaded method 'DisplayOverload' because it differs from another method only on ref and out
+```
+
+## Role of Params Parameter in Polymorphism
+```cs
+//Point to remember: Parameter names should be unique. And also we can not have a parameter name and a declared variable name in the same function as same.
+
+public void DisplayOverload(int a, string a)  {   }
+
+public void Display(int a)
+{
+	string a;
+}
+
+Error1: The parameter name 'a' is a duplicate
+Error2: A local variable named 'a' cannot be declared in this scope because it would give a different meaning to 'a', which is already used in a 'parent or current' scope to denote something else
+
+```
+
+```cs
+public class Overload
+{
+	public void Display()
+	{
+		DisplayOverload(100, "Akhil", "Mittal", "OOP");
+		DisplayOverload(200, "Akhil");
+		DisplayOverload(300);
+	}
+
+	private void DisplayOverload(int a, params string[] parameterArray)
+	{
+		foreach (string str in parameterArray)
+		   Console.WriteLine(str + " " + a);
+	}
+}
+
+class Program
+{
+	static void Main(string[] args)
+	{
+		Overload overload = new Overload();
+		overload.Display();
+		Console.ReadKey();
+	}
+}
+Error: A parameter array must be the last parameter in a formal parameter list	
+```
+
+## 
+```cs
+Point to Remember: C# is very smart to recognize if the penultimate argument and the params have the same data type.
+public class Overload
+{
+    public void Display()
+    {
+        DisplayOverload(100, 200, 300);
+        DisplayOverload(200, 100);
+        DisplayOverload(200);
+    }
+
+    private void DisplayOverload(int a, params int[] parameterArray)
+    {
+        foreach (var i in parameterArray)
+            Console.WriteLine(i + " " + a);
+    }
+
+}
+
+class Program
+{
+	static void Main(string[] args)
+	{
+		Overload overload = new Overload();
+		overload.Display();
+		Console.ReadKey();
+	}
+}
+Error: The parameter array must be a single dimensional array	
+```
+
+
+```cs
+public class Overload
+    {
+        public void Display()
+        {
+            string[] names = {"Akhil", "Ekta", "Arsh"};
+            DisplayOverload(3, names);
+        }
+
+        private void DisplayOverload(int a, params string[] parameterArray)
+        {
+            foreach (var s in parameterArray)
+                Console.WriteLine(s + " " + a);
+        }
+
+    }
+```
+
+```cs
+public class Overload
+{
+	public void Display()
+	{
+	   string [] names = {"Akhil","Arsh"};
+	   DisplayOverload(2, names, "Ekta");
+	}
+
+	private void DisplayOverload(int a, params string[] parameterArray)
+	{
+		foreach (var str in parameterArray)
+			Console.WriteLine(str + " " + a);
+	}
+
+}
+Output
+Error: The best overloaded method match for 'InheritanceAndPolymorphism.Overload.DisplayOverload(int, params string[])' has some invalid arguments
+Error:Argument 2: cannot convert from 'string[]' to 'string'
+
+```
+
+
+```cs
+public class Overload
+{
+	public void Display()
+	{
+		int[] numbers = {10, 20, 30};
+		DisplayOverload(40, numbers);
+		Console.WriteLine(numbers[1]);
+	}
+
+	private void DisplayOverload(int a, params int[] parameterArray)
+	{
+		parameterArray[1] = 1000;
+	}
+
+}
+Output
+1000
+```
+
+```cs
+public class Overload
+{
+	public void Display()
+	{
+		int number = 102;
+		DisplayOverload(200, 1000, number, 200);
+		Console.WriteLine(number);
+	}
+
+	private void DisplayOverload(int a, params int[] parameterArray)
+	{
+		parameterArray[1] = 3000;
+	}
+
+}
+Output
+102
+```
+
+```cs
+public class Overload
+{
+	public void Display()
+	{
+		DisplayOverload(200);
+		DisplayOverload(200, 300);
+		DisplayOverload(200, 300, 500, 600);
+	}
+
+	private void DisplayOverload(int x, int y)
+	{
+		Console.WriteLine("The two integers " + x + " " + y);
+	}
+
+	private void DisplayOverload(params int[] parameterArray)
+	{
+		Console.WriteLine("parameterArray");
+	}
+
+}
+
+Output
+parameterArray
+The two integers 200 300
+parameterArray
+```
+
+```cs
+public class Overload
+{
+	public static void Display(params object[] objectParamArray)
+	{
+		foreach (object obj in objectParamArray)
+		{
+			Console.Write(obj.GetType().FullName + " ");
+		}
+		Console.WriteLine();
+
+	}
+}
+
+class Program
+{
+	static void Main(string[] args)
+	{
+		object[] objArray = { 100, "Akhil", 200.300 };
+		object obj = objArray;
+		Overload.Display(objArray);
+		Overload.Display((object)objArray);
+		Overload.Display(obj);
+		Overload.Display((object[])obj);
+		Console.ReadKey();
+
+	}
+}
+
+Output
+System.Int32 System.String System.Double
+System.Object[]
+System.Object[]
+System.Int32 System.String System.Double
+	
+```
+
+## Inheritance
+
+
+```cs
+class ClassA
+ {
+	
+ }
+
+class ClassB
+{
+	public int x = 100;
+	public void Display1()
+	{
+		Console.WriteLine("ClassB Display1");
+	}
+	public void Display2()
+	{
+		Console.WriteLine("ClassB Display2");
+	}
+}
+
+class Program
+  {
+      static void Main(string[] args)
+      {
+
+          ClassA a = new ClassA();
+          a.Display1();
+      }
+  }
+Output:
+Error: 'InheritanceAndPolymorphism.ClassA' does not contain a definition for 'Display1' and no extension method 'Display1' accepting a first argument of type 'InheritanceAndPolymorphism.ClassA' could be found (are you missing a using directive or an assembly reference?)
+  
+```
+
+```cs
+class ClassA:ClassB
+{
+}
+
+class ClassB
+{
+	public int x = 100;
+	public void Display1()
+	{
+		Console.WriteLine("ClassB Display1");
+	}
+	public void Display2()
+	{
+		Console.WriteLine("ClassB Display2");
+	}
+}
+	
+class Program
+{
+	static void Main(string[] args)
+	{
+		ClassA a = new ClassA();
+		a.Display1();
+		Console.ReadKey();
+	}
+}
+	
+Output
+ClassB Display1
+```
+
+```cs
+class ClassA:ClassB
+    {
+		//No one can stop a derived class to have a method with the same name already declared in its base class.
+        public void Display1()
+        {
+            System.Console.WriteLine("ClassA Display1");
+        }
+    }
+
+class ClassB
+    {
+        public int x = 100;
+        public void Display1()
+        {
+            Console.WriteLine("ClassB Display1");
+        }
+        public void Display2()
+        {
+            Console.WriteLine("ClassB Display2");
+        }
+    
+	class Program
+    {
+        static void Main(string[] args)
+        {
+            ClassA a = new ClassA();
+            a.Display1();
+            Console.ReadKey();
+        }
+    }
+Output:
+ClassA Display1
+Warning: 'InheritanceAndPolymorphism.ClassA.Display1()' hides inherited member 'InheritanceAndPolymorphism.ClassB.Display1()'. Use the new keyword if hiding was intended.
+	
+```
+
+```cs
+ClassA:
+
+  class ClassA:ClassB
+    {
+        public void Display1()
+        {
+            Console.WriteLine("ClassA Display1");
+            base.Display1();
+        }
+    }
+
+ClassB:
+
+class ClassB
+    {
+        public int x = 100;
+        public void Display1()
+        {
+            Console.WriteLine("ClassB Display1");
+        }
+        public void Display2()
+        {
+            Console.WriteLine("ClassB Display2");
+        }
+    }
+class Program
+    {
+        static void Main(string[] args)
+        {
+            ClassA a = new ClassA();
+            a.Display1();
+            Console.ReadKey();
+        }
+    }	
+	
+	Output
+	ClassA Display1 
+ClassB Display1
+```
+
+```cs
+/// <summary>
+/// ClassB: acting as base class
+/// </summary>
+class ClassB
+ {
+     public int x = 100;
+     public void Display1()
+     {
+         Console.WriteLine("ClassB Display1");
+     }
+     public void Display2()
+     {
+         Console.WriteLine("ClassB Display2");
+     }
+ }
+
+ /// <summary>
+ /// ClassA: acting as derived class
+ /// </summary>
+ class ClassA : ClassB
+ {
+     public void Display1()
+     {
+         Console.WriteLine("ClassA Display1");
+         base.Display2();
+     }
+ }
+
+ /// <summary>
+ /// Program: used to execute the method.
+ /// Contains Main method.
+ /// </summary>
+ class Program
+ {
+     static void Main(string[] args)
+     {
+         ClassA a = new ClassA();
+         a.Display1();
+         Console.ReadKey();
+     }
+ }
+ Output
+ ClassA Display1
+ClassB Display2
+```
+
+```cs
+/// <summary>
+/// ClassB: acting as base class
+/// </summary>
+class ClassB
+ {
+     public int x = 100;
+     public void Display1()
+     {
+         Console.WriteLine("ClassB Display1");
+     }
+ }
+
+ /// <summary>
+ /// ClassA: acting as derived class
+ /// </summary>
+ class ClassA : ClassB
+ {
+     public void Display2()
+     {
+         Console.WriteLine("ClassA Display2");
+     }
+ }
+
+ /// <summary>
+ /// Program: used to execute the method.
+ /// Contains Main method.
+ /// </summary>
+ class Program
+ {
+     static void Main(string[] args)
+     {
+         ClassB b = new ClassB();
+         b.Display2();
+         Console.ReadKey();
+     }
+ }
+ 
+ Output
+
+Error: 'InheritanceAndPolymorphism.ClassB' does not contain a definition for 'Display2' and no extension method 'Display2' accepting a first argument of type 'InheritanceAndPolymorphism.ClassB' could be found (are you missing a using directive or an assembly reference?)
+Point to remember: Inheritance does not work backwards.
+Point to remember: Except constructors and destructors, a class inherits everything from its base class .
+
+```
+
+```cs
+ classes defined cannot inherit from special built in classes in C#.
+public class ClassW : System.ValueType
+  {
+  }
+
+  public class ClassX : System.Enum
+  {
+  }
+
+  public class ClassY : System.Delegate
+  {
+  }
+
+  public class ClassZ : System.Array
+  {
+  }
+  
+  Errors
+  'InheritanceAndPolymorphism.ClassW' cannot derive from special class 'System.ValueType'
+'InheritanceAndPolymorphism.ClassX' cannot derive from special class 'System.Enum'
+'InheritanceAndPolymorphism.ClassY' cannot derive from special class 'System.Delegate'
+'InheritanceAndPolymorphism.ClassZ' cannot derive from special class 'System.Array'
+  In inheritance in C#, custom classes cannot derive from special built in c# classes like System.ValueType, System.Enum, System.Delegate, System.Array, etc.
+```
+
+```cs
+public class ClassW
+  {
+  }
+
+  public class ClassX
+  {
+  }
+
+  public class ClassY : ClassW, ClassX
+  {
+  }
+  
+  Compile time Error: Class 'InheritanceAndPolymorphism.ClassY' cannot have multiple base classes: 'InheritanceAndPolymorphism.ClassW' and 'ClassX'.
+  
+  So one more Point to remember: A class can only be derived from one class in C#. C# does not support multiple inheritance by means of class*.
+  
+  *Multiple inheritance in C# can be accomplished by the use of Interfaces
+  
+```
+
+```cs
+//Circular dependency is not allowed in inheritance in C#.
+public class ClassW:ClassY
+ {
+ }
+
+ public class ClassX:ClassW
+ {
+ }
+
+ public class ClassY :  ClassX
+ {
+ }
+ Error: Circular base class dependency involving 'InheritanceAndPolymorphism.ClassX' and 'InheritanceAndPolymorphism.ClassW'.
+ ```
+ 
+```cs
+Point to remember:  We can equate an object of a base class to a derived class but not vice versa.
+public class ClassB
+ {
+     public int b = 100;
+ }
+
+ public class ClassA:ClassB
+ {
+     public int a = 100;
+ }
+
+ public class Program
+ {
+     private static void Main(string[] args)
+     {
+         ClassB classB = new ClassB();
+         ClassA classA = new ClassA();
+         classA = classB;
+         classB = classA;
+     }
+ }
+ Error: Cannot implicitly convert type 'InheritanceAndPolymorphism.ClassB' to 'InheritanceAndPolymorphism.ClassA'. An explicit conversion exists (are you missing a cast?)
+ Point to remember:  We can equate an object of a base class to a derived class but not vice versa.
+ ```
+ 
+ ```cs
+ public class ClassB
+    {
+        public int b = 100;
+    }
+
+    public class ClassA:ClassB
+    {
+        public int a = 100;
+    }
+
+    /// <summary>
+    /// Program: used to execute the method.
+    /// Contains Main method.
+    /// </summary>
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            ClassB classB = new ClassB();
+            ClassA classA = new ClassA();
+            classB=classA;
+            classA = (ClassA)classB;
+        }
+    }
+	
+ ```
+  ```cs
+  public class ClassB
+ {
+     public int b = 100;
+ }
+
+ public class ClassA // Removed ClassB as base class
+ {
+     public int a = 100;
+ }
+
+ /// <summary>
+ /// Program: used to execute the method.
+ /// Contains Main method.
+ /// </summary>
+ public class Program
+ {
+     private static void Main(string[] args)
+     {
+         ClassB classB = new ClassB();
+         ClassA classA = new ClassA();
+         classB = (ClassB)classA;
+         classA = (ClassA)classB;
+     }
+ }
+ Output
+ Cannot convert type 'InheritanceAndPolymorphism.ClassA' to 'InheritanceAndPolymorphism.ClassB'
+Cannot convert type 'InheritanceAndPolymorphism.ClassB' to 'InheritanceAndPolymorphism.ClassA' 
+ ```
+  ```cs
+  /// <summary>
+/// Program: used to execute the method.
+/// Contains Main method.
+/// </summary>
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        int integerA = 10;
+        char characterB = 'A';
+        integerA = characterB;
+        characterB = integerA;
+    }
+}
+Output
+
+Error: Cannot implicitly convert type 'int' to 'char'. An explicit conversion exists (are you missing a cast?)
+
+Point to remember: We cannot implicitly convert an int to char, but char can be converted to int.
+ ```
+
+ 
+##Dynamic Binding/Run Time Polymorphism
+```cs
+/// <summary>
+/// ClassB, acting as a base class
+/// </summary>
+public class ClassB
+{
+    public void AAA()
+    {
+        Console.WriteLine("ClassB AAA");
+    }
+
+    public void BBB()
+    {
+        Console.WriteLine("ClassB BBB");
+    }
+
+    public void CCC()
+    {
+        Console.WriteLine("ClassB CCC");
+    }
+}
+
+public class ClassA : ClassB
+{
+    public void AAA()
+    {
+        Console.WriteLine("ClassA AAA");
+    }
+
+    public void BBB()
+    {
+        Console.WriteLine("ClassA BBB");
+    }
+
+    public void CCC()
+    {
+        Console.WriteLine("ClassA CCC");
+    }
+}
+
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassA x = new ClassA();
+        ClassB y=new ClassB();
+        ClassB z=new ClassA();
+
+        x.AAA(); x.BBB(); x.CCC();
+        y.AAA(); y.BBB();y.CCC();
+        z.AAA(); z.BBB(); z.CCC();
+    }
+}
+Output
+ClassA AAA
+ClassA BBB
+ClassA CCC
+ClassB AAA
+ClassB BBB
+ClassB CCC
+ClassB AAA
+ClassB BBB
+ClassB CCC
+'InheritanceAndPolymorphism.ClassA.AAA()' hides inherited member 'InheritanceAndPolymorphism.ClassB.AAA()'. Use the new keyword if hiding was intended.
+'InheritanceAndPolymorphism.ClassA.BBB()' hides inherited member 'InheritanceAndPolymorphism.ClassB.BBB()'. Use the new keyword if hiding was intended.
+'InheritanceAndPolymorphism.ClassA.CCC()' hides inherited member 'InheritanceAndPolymorphism.ClassB.CCC()'. Use the new keyword if hiding was intended.
+```
+
+```cs
+
+
+/// <summary>
+    /// ClassB, acting as a base class
+    /// </summary>
+    public class ClassB
+    {
+        public virtual void AAA()
+        {
+            Console.WriteLine("ClassB AAA");
+        }
+
+        public virtual void BBB()
+        {
+            Console.WriteLine("ClassB BBB");
+        }
+
+        public virtual void CCC()
+        {
+            Console.WriteLine("ClassB CCC");
+        }
+    }
+
+    /// <summary>
+    /// Class A, acting as a derived class
+    /// </summary>
+    public class ClassA : ClassB
+    {
+        public override void AAA()
+        {
+            Console.WriteLine("ClassA AAA");
+        }
+
+        public new void BBB()
+        {
+            Console.WriteLine("ClassA BBB");
+        }
+
+        public void CCC()
+        {
+            Console.WriteLine("ClassA CCC");
+        }
+    }
+
+    /// <summary>
+    /// Program: used to execute the method.
+    /// Contains Main method.
+    /// </summary>
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            ClassB y = new ClassB();
+            ClassA x = new ClassA();
+            ClassB z = new ClassA();
+
+            y.AAA(); y.BBB(); y.CCC();
+            x.AAA(); x.BBB(); x.CCC();
+            z.AAA(); z.BBB(); z.CCC();
+
+            Console.ReadKey();
+        }
+    }
+```
+
+### Run Time Polymorphism with Three Classes
+```cs
+/// <summary>
+/// ClassB, acting as a base class
+/// </summary>
+public class ClassB
+{
+    public  void AAA()
+    {
+        Console.WriteLine("ClassB AAA");
+    }
+
+    public virtual void BBB()
+    {
+        Console.WriteLine("ClassB BBB");
+    }
+
+    public virtual void CCC()
+    {
+        Console.WriteLine("ClassB CCC");
+    }
+}
+
+/// <summary>
+/// Class A, acting as a derived class
+/// </summary>
+public class ClassA : ClassB
+{
+    public virtual void AAA()
+    {
+        Console.WriteLine("ClassA AAA");
+    }
+
+    public new void BBB()
+    {
+        Console.WriteLine("ClassA BBB");
+    }
+
+    public override void CCC()
+    {
+        Console.WriteLine("ClassA CCC");
+    }
+}
+
+/// <summary>
+/// Class C, acting as a derived class
+/// </summary>
+public class ClassC : ClassA
+{
+    public override void AAA()
+    {
+        Console.WriteLine("ClassC AAA");
+    }
+
+    public void CCC()
+    {
+        Console.WriteLine("ClassC CCC");
+    }
+}
+
+/// <summary>
+/// Program: used to execute the method.
+/// Contains Main method.
+/// </summary>
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        ClassB y = new ClassA();
+        ClassB x = new ClassC();
+        ClassA z = new ClassC();
+
+        y.AAA(); y.BBB(); y.CCC();
+        x.AAA(); x.BBB(); x.CCC();
+        z.AAA(); z.BBB(); z.CCC();
+
+        Console.ReadKey();
+    }
+}
+Output
+ClassB AAA
+ClassB BBB
+ClassA CCC
+ClassB AAA
+ClassB BBB
+ClassA CCC
+ClassC AAA
+ClassA BBB
+ClassA CCC
+
+Point to remember: If the base class object declared the method virtual and the derived class used the modifier override, the derived class method will get called. Otherwise the base class method will get executed. Therefore for virtual methods, the data type created is decided at run time only.
+
+Point to remember: All the methods not marked with virtual are non virtual, and the method to be called is decided at compile time, depending upon the static data type of the object.
+
+```
+
+```cs
+internal class A
+{
+    public virtual void X()
+    {
+    }
+}
+
+internal class B : A
+{
+    public new void X()
+    {
+    }
+}
+
+internal class C : B
+{
+    public override void X()
+    {
+    }
+}
+
+Error: 'InheritanceAndPolymorphism.C.X()': cannot override inherited member 
+'InheritanceAndPolymorphism.B.X()' because it is not marked virtual, abstract, or override
+
+```
+
+### Cut Off Relations
+```cs
+internal class A
+{
+    public virtual void X()
+    {
+        Console.WriteLine("Class: A ; Method X");
+    }
+}
+
+internal class B : A
+{
+    public new virtual void X()
+    {
+        Console.WriteLine("Class: B ; Method X");
+    }
+}
+
+internal class C : B
+{
+    public override void X()
+    {
+        Console.WriteLine("Class: C ; Method X");
+    }
+}
+
+/// <summary>
+/// Program: used to execute the method.
+/// Contains Main method.
+/// </summary>
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        A a = new C();
+        a.X();
+        B b = new C();
+        b.X();
+
+        Console.ReadKey();
+    }
+}
+Output
+
+Hide   Copy Code
+Class: A ; Method X
+Class: C ; Method X
+If in the above code, we remove the modifier override from X() in class C, we get:
+
+Output
+
+Hide   Copy Code
+Class: A ; Method X
+Class: B ; Method X
+
+```
+
+### Runtime Polymorphism with Four Classes
+```cs
+/// <summary>
+    /// Class A
+    /// </summary>
+    public class ClassA
+    {
+        public virtual void XXX()
+        {
+            Console.WriteLine("ClassA XXX");
+        }
+    }
+
+    /// <summary>
+    /// ClassB
+    /// </summary>
+    public class ClassB:ClassA 
+    {
+        public override void XXX()
+        {
+            Console.WriteLine("ClassB XXX");
+        }
+    }
+
+    /// <summary>
+    /// Class C
+    /// </summary>
+    public class ClassC : ClassB
+    {
+        public virtual new void XXX()
+        {
+            Console.WriteLine("ClassC XXX");
+        }
+    }
+
+    /// <summary>
+    /// Class D
+    /// </summary>
+    public class ClassD : ClassC
+    {
+        public override void XXX()
+        {
+            Console.WriteLine("ClassD XXX");
+        }
+    }
+
+    /// <summary>
+    /// Program: used to execute the method.
+    /// Contains Main method.
+    /// </summary>
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            ClassA a = new ClassD();
+            ClassB b = new ClassD();
+            ClassC c=new ClassD();
+            ClassD d=new ClassD();
+           
+            a.XXX();
+            b.XXX();
+            c.XXX();
+            d.XXX();
+
+            Console.ReadKey();
+        }
+    }
+	
+	Output
+	ClassB XXX
+ClassB XXX
+ClassD XXX
+ClassD XXX
+```
+
+```cs
+/// <summary>
+    /// Class A
+    /// </summary>
+    public class ClassA
+    {
+        public virtual void XXX()
+        {
+            Console.WriteLine("ClassA XXX");
+        }
+    }
+
+    /// <summary>
+    /// ClassB
+    /// </summary>
+    public class ClassB:ClassA 
+    {
+        public override void XXX()
+        {
+            base.XXX();
+            Console.WriteLine("ClassB XXX");
+        }
+    }
+
+    /// <summary>
+    /// Class C
+    /// </summary>
+    public class ClassC : ClassB
+    {
+        public override void XXX()
+        {
+            base.XXX();
+            Console.WriteLine("ClassC XXX");
+        }
+    }
+
+    /// <summary>
+    /// Class D
+    /// </summary>
+    public class ClassD : ClassC
+    {
+        public override void XXX()
+        {
+            Console.WriteLine("ClassD XXX");
+        }
+    }
+
+    /// <summary>
+    /// Program: used to execute the method.
+    /// Contains Main method.
+    /// </summary>
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            ClassA a = new ClassB();
+            a.XXX();
+            ClassB b = new ClassC();
+            b.XXX();
+            Console.ReadKey();
+        }
+    }
+	
+	Output
+
+Hide   Copy Code
+ClassA XXX
+ClassB XXX
+ClassA XXX
+ClassB XXX
+ClassC XXX
+
+```
+### The Infinite Loop
+```cs
+/// <summary>
+    /// Class A
+    /// </summary>
+    public class ClassA
+    {
+        public virtual void XXX()
+        {
+            Console.WriteLine("ClassA XXX");
+        }
+    }
+
+    /// <summary>
+    /// ClassB
+    /// </summary>
+    public class ClassB:ClassA 
+    {
+        public override void XXX()
+        {
+            ((ClassA)this).XXX();
+            Console.WriteLine("ClassB XXX");
+        }
+    }
+
+   
+    /// <summary>
+    /// Program: used to execute the method.
+    /// Contains Main method.
+    /// </summary>
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            ClassA a = new ClassB();
+            a.XXX();
+           
+        }
+    }
+```
+
 
 # Inheritance
 ```cs
