@@ -5564,3 +5564,359 @@ partial class PaymentForm {}
 * [2,000 Things You Should Know About C#](https://csharp.2000things.com/index/)
 * [Introduction to Object Oriented Programming Concepts ](http://www.codeproject.com/Articles/22769/Introduction-to-Object-Oriented-Programming-Concep)
 
+
+
+
+# Collection
+
+## List<T>
+```cs
+//To create a list:
+var list = new List<int>();
+
+// Creating a list with an initial size
+var list = new List<int>(10000);
+
+// Add an item at the end of the list
+list.Add(4);
+ 
+// Add an item at index 0
+list.Insert(4, 0);
+ 
+// Remove an item from list
+list.Remove(1);
+ 
+// Remove the item at index 0
+list.RemoveAt(0);
+ 
+// Return the item at index 0
+var first = list[0];
+ 
+// Return the index of an item
+var index = list.IndexOf(4);
+ 
+// Check to see if the list contains an item
+var contains = list.Contains(4);
+ 
+// Return the number of items in the list 
+var count = list.Count;
+ 
+// Iterate over all objects in a list
+foreach (var item in list)
+    Console.WriteLine(item);
+	
+
+// Create a list of strings.
+var salmons = new List<string>();
+salmons.Add("chinook");
+salmons.Add("coho");
+salmons.Add("pink");
+salmons.Add("sockeye");
+
+
+// Create a list of strings by using a collection initializer.
+var salmons = new List<string> { "chinook", "coho", "pink", "sockeye" };
+
+
+// Iterate through the list.
+foreach (var salmon in salmons)
+{
+    Console.Write(salmon + " ");	// Output: chinook coho pink sockeye
+}
+
+
+// Iterate through the list by index.
+for (var index = 0; index < salmons.Count; index++)
+{
+    Console.Write(salmons[index] + " ");	// Output: chinook coho pink sockeye
+}
+
+
+// Remove an element from the list by specifying the object.
+salmons.Remove("coho");
+
+
+
+
+
+### A lambda expression is placed in the ForEach
+
+
+
+var numbers = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+// Remove odd numbers.
+for (var index = numbers.Count - 1; index >= 0; index--)
+{
+    if (numbers[index] % 2 == 1)
+    {
+        // Remove the element by specifying
+        // the zero-based index in the list.
+        numbers.RemoveAt(index);
+    }
+}
+
+// Iterate through the list.
+// A lambda expression is placed in the ForEach method
+// of the List(T) object.
+numbers.ForEach(
+    number => Console.Write(number + " "));
+// Output: 0 2 4 6 8
+
+
+
+###  List<T>
+private static void IterateThroughList()
+{
+    var theGalaxies = new List<Galaxy>
+        {
+            new Galaxy() { Name="Tadpole", MegaLightYears=400},
+            new Galaxy() { Name="Pinwheel", MegaLightYears=25},
+            new Galaxy() { Name="Milky Way", MegaLightYears=0},
+            new Galaxy() { Name="Andromeda", MegaLightYears=3}
+        };
+
+    foreach (Galaxy theGalaxy in theGalaxies)
+    {
+        Console.WriteLine(theGalaxy.Name + "  " + theGalaxy.MegaLightYears);
+    }
+
+    // Output:
+    //  Tadpole  400
+    //  Pinwheel  25
+    //  Milky Way  0
+    //  Andromeda  3
+}
+
+public class Galaxy
+{
+    public string Name { get; set; }
+    public int MegaLightYears { get; set; }
+}
+```
+
+## Dictionary<TKey, TValue>
+```cs
+var dictionary = new Dictionary<int, Customer>();
+
+dictionary.Add(customer.Id, customer);
+
+var dictionary = new Dictionary<int, Customer>
+{
+     { customer1.Id, customer1 },
+     { customer2.Id, customer2 }
+}
+
+
+// Return the customer with ID 1234 
+var customer = dictionary[1234];
+
+// Removing an object by its key
+dictionary.Remove(1);
+ 
+// Removing all objects
+dictionary.Clear();
+
+var count = dictionary.Count; 
+ 
+var containsKey = dictionary.ContainsKey(1);
+ 
+var containsValue = dictionary.ContainsValue(customer1);
+ 
+// Iterate over keys 
+foreach (var key in dictionary.Keys)
+     Console.WriteLine(dictionary[key]);
+ 
+// Iterate over values
+foreach (var value in dictionary.Values)
+     Console.WriteLine(value);
+ 
+// Iterate over dictionary
+foreach (var keyValuePair in dictionary)
+{
+     Console.WriteLine(keyValuePair.Key);
+     Console.WriteLine(keyValuePair.Value);
+}
+```
+
+## HashSet<T>
+```cs
+var hashSet = new HashSet<int>();
+
+
+// Initialize the set using object initialization syntax 
+var hashSet = new HashSet<int>() { 1, 2, 3 };
+ 
+// Add an object to the set
+hashSet.Add(4);
+ 
+// Remove an object 
+hashSet.Remove(3);
+ 
+// Remove all objects 
+hashSet.Clear();
+ 
+// Check to see if the set contains an object 
+var contains = hashSet.Contains(1);
+ 
+// Return the number of objects in the set 
+var count = hashSet.Count;
+
+// Modify the set to include only the objects present in the set and the other set
+hashSet.IntersectWith(another);
+ 
+// Remove all objects in "another" set from "hashSet" 
+hashSet.ExceptWith(another);
+ 
+// Modify the set to include all objects included in itself, in "another" set, or both
+hashSet.UnionWith(another);
+ 
+var isSupersetOf = hashSet.IsSupersetOf(another);
+var isSubsetOf = hashSet.IsSubsetOf(another);
+var equals = hashSet.SetEquals(another);
+```
+
+
+## Stack<T>
+```cs
+var stack = new Stack<string>();
+             
+// Push items in a stack
+stack.Push("http://www.google.com");
+ 
+// Check to see if the stack contains a given item 
+var contains = stack.Contains("http://www.google.com");
+ 
+// Remove and return the item on the top of the stack
+var top = stack.Pop();
+ 
+// Return the item on the top of the stack without removing it 
+var top = stack.Peek();
+ 
+// Get the number of items in stack 
+var count = stack.Count;
+ 
+// Remove all items from stack 
+stack.Clear();
+
+## Queue<T>
+var queue = new Queue<string>();
+ 
+// Add an item to the queue
+queue.Enqueue("transaction1");
+ 
+// Check to see if the queue contains a given item 
+var contains = queue.Contains("transaction1");
+ 
+// Remove and return the item on the front of the queue
+var front = queue.Dequeue();
+ 
+// Return the item on the front without removing it 
+var top = queue.Peek();
+             
+// Remove all items from queue 
+queue.Clear();
+ 
+// Get the number of items in the queue
+var count = queue.Count;
+```
+
+### Hashtable
+Hashtable hashList = new Hashtable();
+hashList.Add(1, "item#1");
+hashList.Add(2, "item#2");
+hashList.Add(3, "item#3");
+
+bool result = hashList.IsFixedSize; // false
+
+bool result = hashList.IsReadOnly;
+
+//Keys - It returns ICollection object containing keys of the IDictionary object.
+ICollection keys = hashList.Keys;
+
+string[] strKeys = new string[keys.Count];
+int index =0;
+foreach (int key in keys)
+{
+   strKeys[index++] = key.ToString();
+}
+
+string keysList = string.Join(", ",strKeys); // 3, 2, 1
+
+//Values - It returns ICollection object containing values of the IDictionary object.
+
+ICollection values = hashList.Values;
+
+string[] strValues = new string[values.Count];
+int index = 0;
+foreach (string value in values)
+{
+   strValues[index++] = value;
+}
+
+string valueList = string.Join(", ", strValues); //item#1, item#2, item#3
+
+hashList.Clear(); // it removes all item from the list.
+
+bool result = hashList.Contains(1); // true
+
+
+IDictionaryEnumerator dicEnum = hashList.GetEnumerator();
+
+string items = string.Empty;
+while (dicEnum.MoveNext())
+{
+
+   items += string.Format("{0} : {1}\n", dicEnum.Key, dicEnum.Value);
+}
+
+MessageBox.Show(items);
+
+hashList.Remove(2); // remove item which has 2 key
+
+
+### ArrayList
+
+ArrayList arrayList = new ArrayList();
+bool isFixedSize = arrayList.IsFixedSize; // false, because ArrayList is not fixed size list
+
+
+ArrayList arrayList = new ArrayList();
+arrayList.Add(1);
+arrayList.Add(2);
+arrayList.Add(3);
+
+bool readOnly = arrayList.IsReadOnly; // false, because default array list is not readonly.
+
+// create readonly list from existing list
+ArrayList readOnlyList = ArrayList.ReadOnly(arrayList);
+
+bool isNewListReadOnly = readOnlyList.IsReadOnly; // true. now user can't modify this list
+												  
+arrayList.Clear() 
+
+
+int itemsCount = arrayList.Count; // 3
+
+
+//Contains
+Person person1 = new Person(1, "test");
+Person person2 = new Person(2, "test2");
+
+bool result1 = arrayList.Contains(person1); // true
+bool result2 = arrayList.Contains(person2); // false
+
+int result1 = arrayList.IndexOf(person3); // 2,
+int result2 = arrayList.IndexOf(person4); // -1. because it does not exist in list
+										  
+// insert item at index 2.
+arrayList.Insert(2, person);
+
+arrayList.Remove(person); // it will remove 2nd item. it will call Equals method to object to find in list.
+
+arrayList.RemoveAt(1); // remove item at index 1
+
+
+
+
+http://cc.davelozinski.com/c-sharp/fastest-collection-for-string-lookups
