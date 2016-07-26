@@ -39,12 +39,15 @@
 * Streams and I/O
 * Diagnostics and Code Contracts
 
+[Read More](https://github.com/ramyrams/CSharp/blob/master/AdvancedC%23.md)
+
 ## [C# OOP]
 * Classes
 * Structs 
 * Inheritance 
 * Interfaces 
 * Polymorphism 
+[Read More](https://github.com/ramyrams/OOPS/blob/master/README.md)
 
 ## [C# LINQ]
-
+[Read More](https://github.com/ramyrams/LINQ/blob/master/README.md)
