@@ -38,6 +38,27 @@
 
 # Types, Storage, and Variables
 
+```cs
+
+//A variable in C# can never have an uninitialized value.
+public class Program
+    {
+        private static int x;
+        private Boolean y;
+        public static void Main(string[] args)
+        {
+            Console.WriteLine(x);
+            Console.WriteLine(y);
+            Console.ReadKey();
+        }
+    }
+
+Output
+
+0
+False
+```
+
 ## Numeric Types
 ```cs
 //Integral literals
