@@ -181,9 +181,20 @@ Console.Write (a == b); // True
 string a = "Here's a tab:\t";
 string a1 = "\\\\server\\fileshare\\helloworld.cs";
 
+
+//verbatim string
+string a2 = @ "\\server\fileshare\helloworld.cs";
+
+//escaped vs verbatim
 string escaped = "First Line\r\nSecond Line";
 string verbatim = @"First Line
 Second Line";
+
+// Assuming your IDE uses CR-LF line separators:
+Console.WriteLine (escaped == verbatim); // True
+
+//String concatenation
+string s = "a" + 5; // a5
 
 //include the double-quote character
 string xml = @"<customer id=""123""></customer>";
