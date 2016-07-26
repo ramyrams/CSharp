@@ -75,6 +75,68 @@ Console.WriteLine ( 1.0.GetType()); // Double (double)
 Console.WriteLine ( 1E06.GetType()); // Double (double)
 Console.WriteLine ( 1.GetType()); // Int32 (int)
 Console.WriteLine ( 0xF0000000.GetType()); // UInt32 (uint)
+
+
+float f = 1.0F;
+double d = 1D;
+decimal d = 1.0M;
+uint i = 1U;
+long i = 1L;
+ulong i = 1UL;
+
+
+// Implicit lossless conversion from int literal to long
+long i = 5; 
+
+//you can always add a decimal point to a numeric literal
+double x = 4.0;
+
+// Will not compile without the M suffix.
+decimal d = −1.23M; 
+
+//Floating-point to integral conversions
+//implicitly converted to all floating-point types
+int i = 1;
+float f = i;
+
+//reverse conversion must be explicit
+int i2 = (int)f;
+
+//Integral arithmetic overflow check operators
+int a = 1000000;
+int b = 1000000;
+
+int c = checked (a * b); // Checks just the expression.
+
+checked 	// Checks all expressions
+{ 		// in statement block.
+	...
+	c = a * b;
+	...
+}
+
+
+//Overflow checking for constant expressions
+int x = int.MaxValue + 1; // Compile-time error
+int y = unchecked (int.MaxValue + 1); // No errors
+
+
+//Dividing a nonzero number by zero results in an infinite value.
+Console.WriteLine ( 1.0 / 0.0); // Infinity
+Console.WriteLine (−1.0 / 0.0); // -Infinity
+Console.WriteLine ( 1.0 / −0.0); // -Infinity
+Console.WriteLine (−1.0 / −0.0); // Infinity
+
+
+//Dividing zero by zero, or subtracting infinity from infinity, results in a NaN
+Console.WriteLine ( 0.0 / 0.0); // NaN
+Console.WriteLine ((1.0 / 0.0) − (1.0 / 0.0)); // NaN
+
+Console.WriteLine (0.0 / 0.0 == double.NaN); // False
+Console.WriteLine (double.IsNaN (0.0 / 0.0)); // True
+Console.WriteLine (object.Equals (0.0 / 0.0, double.NaN)); // True
+
+
 ```
 
 ### Numeric Conversions
