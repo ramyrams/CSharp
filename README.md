@@ -152,7 +152,7 @@ short z = (short)x; // Explicit conversion to 16-bit integral
 ## Boolean Type
 
 
-## Strings and Characters
+## Characters
 ```cs
 char c = 'A'; // Simple character
 char newLine = '\n';
@@ -160,8 +160,19 @@ char backSlash = '\\';
 char copyrightSymbol = '\u00A9';
 char omegaSymbol = '\u03A9';
 char newLine = '\u000A';
+char backSlash = '\\';
+char Null = '\0';
+char Alert = '\a'
+char Backspace = '\b'
+char Formfeed = '\f' 
+char Newline= '\n' 
+char Carriagereturn = '\r' 
+char Horizontaltab = '\t' 
+char Verticaltab = '\v' 
+```
 
-
+## Strings 
+```cs
 string a = "Heat";
 string a = "test";
 string b = "test";
