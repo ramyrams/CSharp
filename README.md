@@ -47,6 +47,7 @@
 * Inheritance 
 * Interfaces 
 * Polymorphism 
+
 [Read More](https://github.com/ramyrams/OOPS/blob/master/README.md)
 
 ## [C# LINQ]
