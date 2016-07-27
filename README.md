@@ -9,6 +9,7 @@
 * Conversions
 * Enumerations 
 * Exception Handling
+* Structs
 * Namespaces
 * Collection
 * Enumerators and Iterators
@@ -22,19 +23,18 @@
 * Delegates
 * Events
 * Generics
-* Reflection and Attributes 
+* Reflection, Attributes and Metadata
 * Dynamic Binding
 * Disposal and Garbage Collection
 * Serialization
 * Application Domains
 * Lambda
+* Threading
 * Asynchronous Programming
+* Parallel Programming
 * Concurrency & Asynchrony
 * Native and COM Interoperability
-* Parallel Programming
-* Advanced Threading
 * Security
-* Reflection and Metadata
 * Networking
 * Streams and I/O
 * Diagnostics and Code Contracts
